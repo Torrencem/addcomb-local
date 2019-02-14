@@ -1,0 +1,8 @@
+[package]
+name = "addcomb_rust"
+version = "0.1.0"
+authors = ["torrencem <matt@torrencefamily.net>"]
+
+[dependencies]
+itertools = "0.8.0"
+rayon = "1.0.3"
