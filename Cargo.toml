@@ -1,5 +1,5 @@
 [package]
-name = "addcomb_rust"
+name = "addcomb"
 version = "0.1.0"
 authors = ["torrencem <matt@torrencefamily.net>"]
 
