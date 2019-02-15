@@ -4,7 +4,7 @@ pub mod fastset;
 use fastset::*;
 
 pub mod comb;
-use comb::*;
+use comb::chapter_a::nu_exceptions;
 
 extern crate rayon;
 
