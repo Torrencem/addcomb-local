@@ -36,5 +36,10 @@ pub fn emulate(params: GeneratorForm) {
 }
 
 fn _emulate(params: GeneratorForm) {
-    
+    for a in each_set_exact(params.m) {
+        let ss = match params.h {
+            Fixed(m) => a.hfoldsumset(m);
+            
+        }
+    }
 }
