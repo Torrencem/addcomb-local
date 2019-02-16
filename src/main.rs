@@ -44,6 +44,13 @@ mod tests {
     }
 
     #[test]
+    fn test_iterators() {
+        for a in each_set_exact_zero(6, 3) {
+            println!("{:?}", a);
+        }
+    }
+
+    #[test]
     fn test_multipurpose() {
         // Page 133
         // for n in 2..=21 {

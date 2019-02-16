@@ -1,0 +1,5 @@
+1. change each_set_exact to each_set_exact_zero where applicable
+2. implement f function in chapter_b
+3. implement interval sumset functions and combinatorics functions
+4. use u32 everywhere instead of u8
+5. consistent argument orders

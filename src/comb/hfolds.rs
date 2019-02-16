@@ -53,7 +53,7 @@ impl FastSet {
         if h == 0 {
             return singleton(0);
         }
-        FastSet { contents: _hfrs(self.contents, 1u64, h, n, empty_set()) }
+        FastSet { contents: _hfrs(self.contents, 1u64, h, n, empty_set(), n + 1) }
     }
 
     #[inline]
@@ -61,7 +61,7 @@ impl FastSet {
         if h == 0 {
             return singleton(0);
         }
-        FastSet { contents: _hfss(self.contents, 1u64, h, n, empty_set(), empty_set()) }
+        FastSet { contents: _hfss(self.contents, 1u64, h, n, empty_set(), empty_set(), n + 1) }
     }
 
     #[inline]
@@ -72,11 +72,11 @@ impl FastSet {
         if h == 0 {
             return singleton(0);
         }
-        FastSet { contents: _hfrss(self.contents, 1u64, h, n, empty_set()) }
+        FastSet { contents: _hfrss(self.contents, 1u64, h, n, empty_set(), n + 1) }
     }
 }
 
-fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet) -> u64 {
+fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet, ceiling: u8) -> u64 {
     // A 1 in restrictions[i] means i has already been added
     if h == 0 {
         return curr;
@@ -85,12 +85,15 @@ fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet) -> u64 {
     let mut toadd = stat;
     while toadd != 0 {
         let shift = bit_scan_low(toadd);
+        if shift > ceiling {
+            break;
+        }
         if !restrictions.access(shift) {
             let cycled = cycle(curr, shift, n);
             let mut newrestr = restrictions.clone();
             newrestr.add(shift);
 
-            let rec_call = _hfrss(stat, cycled, h - 1, n, newrestr);
+            let rec_call = _hfrss(stat, cycled, h - 1, n, newrestr, shift);
             total |= rec_call;
 
             // Also choose -cycled
@@ -98,7 +101,7 @@ fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet) -> u64 {
             let mut newrestr = restrictions.clone();
             newrestr.add(shift);
 
-            let rec_call = _hfrss(stat, cycled, h - 1, n, newrestr);
+            let rec_call = _hfrss(stat, cycled, h - 1, n, newrestr, shift);
             total |= rec_call;
         }
 
@@ -107,7 +110,7 @@ fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet) -> u64 {
     total
 }
 
-fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictions: FastSet) -> u64 {
+fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictions: FastSet, ceiling: u8) -> u64 {
     if h == 0 {
         return curr;
     }
@@ -115,12 +118,15 @@ fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictio
     let mut toadd = stat;
     while toadd != 0 {
         let shift = bit_scan_low(toadd);
+        if shift > ceiling {
+            break;
+        }
         if !prestrictions.access(shift) {
             let cycled = cycle(curr, shift, n);
             let mut newnrestr = nrestrictions.clone();
             newnrestr.add(shift);
 
-            let rec_call = _hfss(stat, cycled, h - 1, n, prestrictions.clone(), newnrestr);
+            let rec_call = _hfss(stat, cycled, h - 1, n, prestrictions.clone(), newnrestr, shift);
             total |= rec_call;
         }
         if !nrestrictions.access(shift) {
@@ -128,7 +134,7 @@ fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictio
             let mut newprestr = prestrictions.clone();
             newprestr.add(shift);
 
-            let rec_call = _hfss(stat, cycled, h - 1, n, newprestr, nrestrictions.clone());
+            let rec_call = _hfss(stat, cycled, h - 1, n, newprestr, nrestrictions.clone(), shift);
             total |= rec_call;
         }
         toadd &= toadd - 1;
@@ -136,7 +142,7 @@ fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictio
     total
 }
 
-fn _hfrs(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet) -> u64 {
+fn _hfrs(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet, ceiling: u8) -> u64 {
     // A 1 in restrictions[i] means i has already been added
     if h == 0 {
         return curr;
@@ -145,12 +151,16 @@ fn _hfrs(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet) -> u64 {
     let mut toadd = stat;
     while toadd != 0 {
         let shift = bit_scan_low(toadd);
+        if shift > ceiling {
+            break;
+        }
+
         if !restrictions.access(shift) {
             let cycled = cycle(curr, shift, n);
             let mut newrestr = restrictions.clone();
             newrestr.add(shift);
 
-            let rec_call = _hfrs(stat, cycled, h - 1, n, newrestr);
+            let rec_call = _hfrs(stat, cycled, h - 1, n, newrestr, shift);
             total |= rec_call;
         }
 
@@ -166,7 +176,7 @@ mod tests {
     #[test]
     pub fn test_hfrs() {
         let a = FastSet::from(&[2, 3][..]);
-        let b = a.hfoldrestrictedsignedsumset(2, 13);
+        let b = a.hfoldsignedsumset(3, 13);
         println!("{:?}", b);
     }
 }
