@@ -1,5 +1,3 @@
-extern crate addcomb;
-
 pub mod fastset;
 
 pub mod comb;
@@ -7,6 +5,8 @@ use comb::chapter_a::*;
 use comb::chapter_b::*;
 use comb::chapter_c::*;
 use comb::chapter_d::*;
+use comb::chapter_e::*;
+use comb::chapter_f::*;
 
 pub mod gburg_emulator;
 use gburg_emulator::*;
@@ -73,7 +73,7 @@ fn main() {
                                      .short("f")
                                      .long("function")
                                      .value_name("F_NAME")
-                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); ro(n, m, h)")
+                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); ro(n, m, h); chi(n, h); tau(n, h)")
                                      .required(true)
                                      .takes_value(true))
                                 .arg(Arg::with_name("arguments")
@@ -201,6 +201,28 @@ fn main() {
                 (true, false, true)   => Box::new(|a, b, c| ro_restricted_interval(a, b, c)),
                 (true, true, true)    => Box::new(|a, b, c| ro_signed_restricted_interval(a, b, c)),
             },
+            "chi" => match (interval, signed, restricted) {
+                (false, false, false) => Box::new(|a, b, _c| chi(a, b)),
+                (false, true, false)  => Box::new(|a, b, _c| chi_signed(a, b)),
+                (false, false, true)  => Box::new(|a, b, _c| chi_restricted(a, b)),
+                (false, true, true)   => Box::new(|a, b, _c| chi_signed_restricted(a, b)),
+                // Interval functions
+                (true, false, false)  => Box::new(|a, b, _c| chi_interval(a, b)),
+                (true, true, false)   => Box::new(|a, b, _c| chi_signed_interval(a, b)),
+                (true, false, true)   => Box::new(|a, b, _c| chi_restricted_interval(a, b)),
+                (true, true, true)    => Box::new(|a, b, _c| chi_signed_restricted_interval(a, b)),
+            },
+            "tau" => match (interval, signed, restricted) {
+                (false, false, false) => Box::new(|a, b, _c| tau(a, b)),
+                (false, true, false)  => Box::new(|a, b, _c| tau_signed(a, b)),
+                (false, false, true)  => Box::new(|a, b, _c| tau_restricted(a, b)),
+                (false, true, true)   => Box::new(|a, b, _c| tau_signed_restricted(a, b)),
+                // Interval functions
+                (true, false, false)  => Box::new(|a, b, _c| tau_interval(a, b)),
+                (true, true, false)   => Box::new(|a, b, _c| tau_signed_interval(a, b)),
+                (true, false, true)   => Box::new(|a, b, _c| tau_restricted_interval(a, b)),
+                (true, true, true)    => Box::new(|a, b, _c| tau_signed_restricted_interval(a, b)),
+            },
             x => panic!("Unsupported or unrecognized function: {}", x)
         };
 
@@ -217,14 +239,26 @@ fn main() {
         if arguments.len() != 3 && fchoice == "nu" {
             panic!("Nu takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
-        if arguments.len() != 3 && fchoice == "nu" {
+        if arguments.len() != 3 && fchoice == "ro" {
             panic!("Ro takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
         if arguments.len() != 2 && fchoice == "phi" {
             panic!("Phi takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
+        if arguments.len() != 2 && fchoice == "chi" {
+            panic!("Chi takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
+        }
         if arguments.len() != 2 && fchoice == "sigma" {
             panic!("Sigma takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
+        }
+        if arguments.len() != 2 && fchoice == "tau" {
+            panic!("Tau takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
+        }
+
+        if fchoice == "nu" || fchoice == "ro" {
+            if arguments[1] > arguments[0] {
+                panic!("The value of m given cannot be larger than the value of n!");
+            }
         }
 
         let third_arg = if arguments.len() == 2 { 0 } else { arguments[2] };

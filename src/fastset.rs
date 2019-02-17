@@ -162,6 +162,24 @@ pub fn each_set_exact_zero(max_size: u32, set_size: u32) -> EachSetExactZero {
     return EachSetExactZero { esetiter: each_set_exact(max_size - 1, set_size - 1) }
 }
 
+pub struct EachSetExactNoZero {
+    esetiter: EachSetExact
+}
+
+impl Iterator for EachSetExactNoZero {
+    type Item = FastSet;
+
+    fn next(&mut self) -> Option<FastSet> {
+        let mut ret = self.esetiter.next()?;
+        ret.contents <<= 1;
+        return Some(ret);
+    }
+}
+
+pub fn each_set_exact_no_zero(max_size: u32, set_size: u32) -> EachSetExactNoZero {
+    return EachSetExactNoZero { esetiter: each_set_exact(max_size - 1, set_size) }
+}
+
 impl fmt::Debug for FastSet {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "FastSet {:?}", (0..64).filter(|n| self.access(*n)).collect::<Vec<u32>>())

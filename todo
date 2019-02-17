@@ -4,3 +4,6 @@
 4. documentation
 5. consistent argument orders
 6. make nu_exceptions visible from the CLI
+7. remove excess "as u32"'s
+8. check the 2.. in chapter_c
+9. add the N version of the functions where it's possible (such as chapter_f)

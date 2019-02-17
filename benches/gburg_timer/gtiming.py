@@ -15,7 +15,6 @@ params = {
     "size_restr": (45, 45)
 }
 
-
 driver = webdriver.Firefox()
 driver.get("http://www.addcomb.gettysburg.edu/sumsets.html")
 assert "Sumset" in driver.title
