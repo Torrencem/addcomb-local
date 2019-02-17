@@ -17,7 +17,7 @@ extern crate clap;
 
 use clap::{Arg, App, SubCommand};
 
-static mut VERBOSE: bool = false;
+// static mut VERBOSE: bool = false;
 
 fn main() {
     let matches = App::new("Additive Combinatorics")
@@ -152,12 +152,12 @@ fn main() {
     }
 
     if let Some(matches) = matches.subcommand_matches("compute") {
-        if matches.is_present("verbose") {
-            // Only runs on startup
-            unsafe {
-                VERBOSE = true;
-            }
-        }
+        // if matches.is_present("verbose") {
+        //     // Only runs on startup
+        //     unsafe {
+        //         VERBOSE = true;
+        //     }
+        // }
 
         let fchoice = matches.value_of("function").unwrap().trim().to_lowercase();
         let argchoice = matches.value_of("arguments").unwrap();
