@@ -1,19 +1,21 @@
 
 use fastset::*;
 
+#[derive(Debug)]
 pub enum TermSize {
     Fixed(u32),
     Vary(u32, u32)
 }
 
+#[derive(Debug)]
 pub struct GeneratorForm {
-    order: u32,
-    m: u32,
-    h: TermSize,
-    signed: bool,
-    repeat: bool,
-    size_filter: (u32, u32),
-    terminate: bool
+    pub order: u32,
+    pub m: u32,
+    pub h: TermSize,
+    pub signed: bool,
+    pub repeat: bool,
+    pub size_filter: (u32, u32),
+    pub terminate: bool
 }
 
 #[inline]
@@ -48,6 +50,8 @@ pub fn emulate(params: GeneratorForm) {
         TermSize::Vary(h1, h2) => (0, (h1, h2))
     };
 
+    let mut found = false;
+
     for a in each_set_exact(params.order, params.m) {
         // Figure out what the sumset we're interested in is
         let ss = interest_func(a, static_params);
@@ -55,6 +59,7 @@ pub fn emulate(params: GeneratorForm) {
             println!("sumset({:?}) = {:?}", a, ss);
             count_found += 1;
             if params.terminate {
+                found = true;
                 break;
             }
         }
@@ -62,6 +67,8 @@ pub fn emulate(params: GeneratorForm) {
 
     if !params.terminate {
         println!("\nTotal matches found: {}", count_found);
+    } else if !found {
+        println!("No sets were found which matched the request!");
     }
 
     println!("Done!");

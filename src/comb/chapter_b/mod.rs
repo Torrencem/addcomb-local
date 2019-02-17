@@ -1,6 +1,5 @@
 
 use fastset::*;
-use comb::*;
 
 pub fn phi(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
