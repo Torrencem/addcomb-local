@@ -1,6 +1,6 @@
 # Additive Combinatorics
 
-A compilation of useful functions and tools based on this [additive combinatorics book](link.link).
+A compilation of useful functions and tools based on this [additive combinatorics book](https://arxiv.org/pdf/1705.07444.pdf).
 
 To use: [install rust & cargo](https://www.rust-lang.org/tools/install) on your system. In the command line, traverse to the directory of this project, then use ``cargo build --release`` to build the project. Then, a binary should appear in ``./target/release/``, which you can run. A helpful place to start is ``./addcomb compute --help``:
 
