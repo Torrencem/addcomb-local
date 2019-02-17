@@ -2,7 +2,7 @@ use std::u64::MAX;
 use std::fmt;
 
 #[inline]
-pub fn cycle(scontents: u64, i: u8, m: u8) -> u64 {
+pub fn cycle(scontents: u64, i: u32, m: u32) -> u64 {
     let mut ret = scontents;
     let mut wrapped: u64 = MAX << (m - i); // Mask the elements which will get wrapped around
     wrapped &= ret;
@@ -14,7 +14,7 @@ pub fn cycle(scontents: u64, i: u8, m: u8) -> u64 {
 }
 
 #[inline]
-pub fn cycle_rev(scontents: u64, i: u8, m: u8) -> u64 {
+pub fn cycle_rev(scontents: u64, i: u32, m: u32) -> u64 {
     cycle(scontents, m - i, m)
 }
 
@@ -23,7 +23,7 @@ pub struct FastSet {
     pub contents: u64
 }
 
-pub fn singleton(i: u8) -> FastSet {
+pub fn singleton(i: u32) -> FastSet {
     return FastSet { contents: (1u64 << i) };
 }
 
@@ -33,18 +33,18 @@ pub fn empty_set() -> FastSet {
 
 impl FastSet {
     #[inline]
-    pub fn access(&self, i: u8) -> bool{
+    pub fn access(&self, i: u32) -> bool{
         // assert!(i < 64);
         return self.contents & (1u64 << i) > 0;
     }
 
     #[inline]
-    pub fn add(&mut self, i: u8) {
+    pub fn add(&mut self, i: u32) {
         self.contents |= 1u64 << i;
     }
 
     #[inline]
-    pub fn isfull(&self, n: u8) -> bool {
+    pub fn isfull(&self, n: u32) -> bool {
         // Tests if the set is full up to (and including) n
         (!(self.contents & ((1u64 << (n + 1)) - 1)) << (64 - n)) == 0
     }
@@ -55,8 +55,8 @@ impl FastSet {
     }
 
     #[inline]
-    pub fn size(&self) -> u8 {
-        return self.contents.count_ones() as u8;
+    pub fn size(&self) -> u32 {
+        return self.contents.count_ones() as u32;
     }
 
     #[inline]
@@ -70,7 +70,7 @@ impl FastSet {
     }
 
     #[inline]
-    pub fn cycle(&mut self, i: u8, m: u8) {
+    pub fn cycle(&mut self, i: u32, m: u32) {
         // Add i (mod n) to every element of the set
         assert!(i < m);
         self.contents = cycle(self.contents, i, m);
@@ -132,7 +132,7 @@ impl Iterator for EachSetExact {
     }
 }
 
-pub fn each_set(max_size: u8) -> EachSet {
+pub fn each_set(max_size: u32) -> EachSet {
     return EachSet { state: 0, cap: (1u64 << max_size) }
 }
 
@@ -164,12 +164,12 @@ pub fn each_set_exact_zero(max_size: u32, set_size: u32) -> EachSetExactZero {
 
 impl fmt::Debug for FastSet {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "FastSet {:?}", (0..64).filter(|n| self.access(*n)).collect::<Vec<u8>>())
+        write!(f, "FastSet {:?}", (0..64).filter(|n| self.access(*n)).collect::<Vec<u32>>())
     }
 }
 
-impl<'a> From<&'a [u8]> for FastSet {
-    fn from(vals: &[u8]) -> Self {
+impl<'a> From<&'a [u32]> for FastSet {
+    fn from(vals: &[u32]) -> Self {
         let mut me = empty_set();
         for val in vals {
             me.add(*val);

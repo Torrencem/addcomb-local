@@ -4,13 +4,19 @@ use fastset::*;
 
 
 #[inline]
-fn bit_scan_low(val: u64) -> u8 {
-    return val.trailing_zeros() as u8;
+fn bit_scan_low(val: u64) -> u32 {
+    return val.trailing_zeros() as u32;
+}
+
+#[inline]
+fn in_interval(val: u32, interval: (u32, u32)) -> bool {
+    let (a, b) = interval;
+    (val >= a) && (val <= b)
 }
 
 impl FastSet {
     #[inline]
-    pub fn simplesumset(&self, other: &FastSet, n: u8) -> FastSet {
+    pub fn simplesumset(&self, other: &FastSet, n: u32) -> FastSet {
         let mut res = 0u64;
         let mut c1 = self.contents;
         while c1 != 0 {
@@ -24,7 +30,7 @@ impl FastSet {
     }
 
     #[inline]
-    pub fn hfoldsumset(&self, h: u8, n: u8) -> FastSet {
+    pub fn hfoldsumset(&self, h: u32, n: u32) -> FastSet {
         if h == 0 {
             return singleton(0);
         }
@@ -46,7 +52,33 @@ impl FastSet {
     }
 
     #[inline]
-    pub fn hfoldrestrictedsumset(&self, h: u8, n: u8) -> FastSet {
+    pub fn hfoldintervalsumset(&self, hs: (u32, u32), n: u32) -> FastSet {
+        let (mut h1,h2) = hs;
+        h1 -= 1;
+        let mut final_res = 0u64;
+        let mut res = 0u64;
+        let mut prev = 1u64;
+        for i in 0..=hs.1 {
+            if in_interval(hs.1 - i, (h1, h2)) {
+                final_res |= prev;
+            }
+            let mut c1 = self.contents;
+            while c1 != 0 {
+                let shift = bit_scan_low(c1);
+                let cycled = cycle(prev, shift, n);
+                res |= cycled;
+
+                c1 &= c1 - 1;
+            }
+            prev = res;
+            
+            res = 0u64;
+        }
+        FastSet {contents: final_res}
+    }
+
+    #[inline]
+    pub fn hfoldrestrictedsumset(&self, h: u32, n: u32) -> FastSet {
         if h > self.size() {
             return empty_set();
         }
@@ -57,7 +89,12 @@ impl FastSet {
     }
 
     #[inline]
-    pub fn hfoldsignedsumset(&self, h: u8, n: u8) -> FastSet {
+    pub fn hfoldintervalrestrictedsumset(&self, hs: (u32, u32), n: u32) -> FastSet {
+        FastSet { contents: _hfirs(self.contents, 1u64, hs.1, hs, n, empty_set(), n + 1) }
+    }
+
+    #[inline]
+    pub fn hfoldsignedsumset(&self, h: u32, n: u32) -> FastSet {
         if h == 0 {
             return singleton(0);
         }
@@ -65,7 +102,12 @@ impl FastSet {
     }
 
     #[inline]
-    pub fn hfoldrestrictedsignedsumset(&self, h: u8, n: u8) -> FastSet {
+    pub fn hfoldintervalsignedsumset(&self, hs: (u32, u32), n: u32) -> FastSet {
+        FastSet { contents: _hfiss(self.contents, 1u64, hs.1, hs, n, empty_set(), empty_set(), n + 1) }
+    }
+
+    #[inline]
+    pub fn hfoldrestrictedsignedsumset(&self, h: u32, n: u32) -> FastSet {
         if h > self.size() {
             return empty_set();
         }
@@ -74,9 +116,14 @@ impl FastSet {
         }
         FastSet { contents: _hfrss(self.contents, 1u64, h, n, empty_set(), n + 1) }
     }
+
+    #[inline]
+    pub fn hfoldintervalrestrictedsignedsumset(&self, hs: (u32, u32), n: u32) -> FastSet {
+        FastSet { contents: _hfirss(self.contents, 1u64, hs.1, hs, n, empty_set(), n + 1) }
+    }
 }
 
-fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet, ceiling: u8) -> u64 {
+fn _hfrss(stat: u64, curr: u64, h: u32, n: u32, restrictions: FastSet, ceiling: u32) -> u64 {
     // A 1 in restrictions[i] means i has already been added
     if h == 0 {
         return curr;
@@ -110,7 +157,44 @@ fn _hfrss(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet, ceiling: u8
     total
 }
 
-fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictions: FastSet, ceiling: u8) -> u64 {
+fn _hfirss(stat: u64, curr: u64, h: u32, hs: (u32, u32), n: u32, restrictions: FastSet, ceiling: u32) -> u64 {
+    // A 1 in restrictions[i] means i has already been added
+    if h == 0 {
+        return curr;
+    }
+    let mut total = 0u64;
+    if in_interval(hs.1 - h, hs) {
+        total = curr;
+    }
+    let mut toadd = stat;
+    while toadd != 0 {
+        let shift = bit_scan_low(toadd);
+        if shift > ceiling {
+            break;
+        }
+        if !restrictions.access(shift) {
+            let cycled = cycle(curr, shift, n);
+            let mut newrestr = restrictions.clone();
+            newrestr.add(shift);
+
+            let rec_call = _hfirss(stat, cycled, h - 1, hs, n, newrestr, shift);
+            total |= rec_call;
+
+            // Also choose -cycled
+            let cycled = cycle_rev(curr, shift, n);
+            let mut newrestr = restrictions.clone();
+            newrestr.add(shift);
+
+            let rec_call = _hfirss(stat, cycled, h - 1, hs, n, newrestr, shift);
+            total |= rec_call;
+        }
+
+        toadd &= toadd - 1;
+    }
+    total
+}
+
+fn _hfss(stat: u64, curr: u64, h: u32, n: u32, prestrictions: FastSet, nrestrictions: FastSet, ceiling: u32) -> u64 {
     if h == 0 {
         return curr;
     }
@@ -142,7 +226,42 @@ fn _hfss(stat: u64, curr: u64, h: u8, n: u8, prestrictions: FastSet, nrestrictio
     total
 }
 
-fn _hfrs(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet, ceiling: u8) -> u64 {
+fn _hfiss(stat: u64, curr: u64, h: u32, hs: (u32, u32), n: u32, prestrictions: FastSet, nrestrictions: FastSet, ceiling: u32) -> u64 {
+    if h == 0 {
+        return curr;
+    }
+    let mut total = 0u64;
+    if in_interval(hs.1 - h, hs) {
+        total = curr;
+    }
+    let mut toadd = stat;
+    while toadd != 0 {
+        let shift = bit_scan_low(toadd);
+        if shift > ceiling {
+            break;
+        }
+        if !prestrictions.access(shift) {
+            let cycled = cycle(curr, shift, n);
+            let mut newnrestr = nrestrictions.clone();
+            newnrestr.add(shift);
+
+            let rec_call = _hfiss(stat, cycled, h - 1, hs, n, prestrictions.clone(), newnrestr, shift);
+            total |= rec_call;
+        }
+        if !nrestrictions.access(shift) {
+            let cycled = cycle_rev(curr, shift, n);
+            let mut newprestr = prestrictions.clone();
+            newprestr.add(shift);
+
+            let rec_call = _hfiss(stat, cycled, h - 1, hs, n, newprestr, nrestrictions.clone(), shift);
+            total |= rec_call;
+        }
+        toadd &= toadd - 1;
+    }
+    total
+}
+
+fn _hfrs(stat: u64, curr: u64, h: u32, n: u32, restrictions: FastSet, ceiling: u32) -> u64 {
     // A 1 in restrictions[i] means i has already been added
     if h == 0 {
         return curr;
@@ -169,6 +288,36 @@ fn _hfrs(stat: u64, curr: u64, h: u8, n: u8, restrictions: FastSet, ceiling: u8)
     total
 }
 
+fn _hfirs(stat: u64, curr: u64, h: u32, hs: (u32, u32), n: u32, restrictions: FastSet, ceiling: u32) -> u64 {
+    // A 1 in restrictions[i] means i has already been added
+    if h == 0 {
+        return curr;
+    }
+    let mut total = 0u64;
+    if in_interval(hs.1 - h, hs) {
+        total = curr;
+    }
+    let mut toadd = stat;
+    while toadd != 0 {
+        let shift = bit_scan_low(toadd);
+        if shift > ceiling {
+            break;
+        }
+
+        if !restrictions.access(shift) {
+            let cycled = cycle(curr, shift, n);
+            let mut newrestr = restrictions.clone();
+            newrestr.add(shift);
+
+            let rec_call = _hfirs(stat, cycled, h - 1, hs, n, newrestr, shift);
+            total |= rec_call;
+        }
+
+        toadd &= toadd - 1;
+    }
+    total
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -178,5 +327,14 @@ mod tests {
         let a = FastSet::from(&[2, 3][..]);
         let b = a.hfoldsignedsumset(3, 13);
         println!("{:?}", b);
+    }
+
+    #[test]
+    pub fn test_intervals() {
+        let a = FastSet::from(&[0, 1, 2, 3, 10][..]);
+        for h in 1..=3 {
+            println!("{}: {:?}", h, a.hfoldsumset(h, 45));
+        }
+        println!("interval: {:?}", a.hfoldintervalsumset((1, 3), 45));
     }
 }

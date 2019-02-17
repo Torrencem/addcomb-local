@@ -1,12 +1,131 @@
 use fastset::*;
 use comb::*;
 
-pub fn sigma(n: u8, h: u32) -> u32 {
+pub fn sigma(n: u32, h: u32) -> u32 {
     for m in 2.. {
         let expected = choose(m + h - 1, h);
         let mut found = false;
         for a in each_set_exact_zero(n as u32, m as u32) {
-            if a.hfoldsumset(h as u8, n).size() == expected as u8 {
+            if a.hfoldsumset(h as u32, n).size() == expected as u32 {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_interval(n: u32, s: u32) -> u32 {
+    for m in 2.. {
+        let expected = choose(m + s, s);
+        let mut found = false;
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldintervalsumset((0, s), n).size() == expected {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_signed(n: u32, h: u32) -> u32 {
+    for m in 2.. {
+        let expected = c(h, m);
+        let mut found = false;
+        for a in each_set_exact_zero(n as u32, m as u32) {
+            if a.hfoldsignedsumset(h as u32, n).size() == expected as u32 {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
+    for m in 2.. {
+        let expected = a(m, s);
+        let mut found = false;
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldintervalsignedsumset((0,s), n).size() == expected {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_restricted(n: u32, h: u32) -> u32 {
+    for m in 2.. {
+        let expected = choose(m, h);
+        let mut found = false;
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldrestrictedsumset(h, n).size() == expected {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
+    for m in 2.. {
+        let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)).sum();
+        let mut found = false;
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldintervalrestrictedsumset((0,s), n).size() == expected {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
+    for m in 2.. {
+        let expected = choose(m, h)*(2u32).pow(h);
+        let mut found = false;
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldrestrictedsignedsumset(h, n).size() == expected {
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            return m - 1;
+        }
+    }
+    panic!();
+}
+
+pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
+    for m in 2.. {
+        let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)*(2u32).pow(h)).sum();
+        let mut found = false;
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldintervalrestrictedsumset((0,s), n).size() == expected {
                 found = true;
                 break;
             }
