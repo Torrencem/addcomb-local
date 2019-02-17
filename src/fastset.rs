@@ -177,3 +177,43 @@ impl<'a> From<&'a [u32]> for FastSet {
         me
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use fastset::*;
+    extern crate rand;
+    use self::rand::Rng;
+    
+    #[test]
+    fn test_set_correctness() {
+        let mut rng = rand::thread_rng();
+        for _ in 0..5 {
+            let mut a: FastSet = empty_set();
+            let mut b: FastSet = empty_set();
+            let mut c: FastSet;
+            let mut d: FastSet;
+
+            for _ in 0..40 {
+                let elem = rng.gen::<u32>() % 63;
+                a.add(elem);
+                assert!(a.access(elem));
+            }
+
+            for _ in 0..40 {
+                let elem = rng.gen::<u32>() % 63;
+                b.add(elem);
+                assert!(b.access(elem));
+            }
+
+            c = a;
+            c.union(&b);
+            d = a;
+            d.intersect(&b);
+
+            for i in 0..=63 {
+                assert!(c.access(i) == (a.access(i) || b.access(i)));
+                assert!(d.access(i) == (a.access(i) && b.access(i)));
+            }
+        }
+    }
+}

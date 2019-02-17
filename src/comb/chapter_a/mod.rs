@@ -5,7 +5,7 @@ use comb::*;
 
 pub fn nu(n: u32, m: u32, h: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -19,18 +19,18 @@ pub fn nu_exceptions(n: u32) -> u32 {
     let params: Vec<(u32, u32)> = iproduct!(2u32..=n/2, 3u32..=n/2).collect();
 
     let excepts_number = params.into_par_iter().filter(|(h, m)| {
-            let expected = cmp::min(n, choose(m + h - 1, *h)) as u32;
-            nu(n as u32, *m, *h as u32) != expected
+            let expected = cmp::min(n, choose(m + h - 1, *h));
+            nu(n, *m, *h) != expected
         })
         //.inspect(|(h, m)| println!("Exception: h={}, m={}", h, m))
-        .count() as u32;
+        .count();
 
-    excepts_number
+    excepts_number as u32
 }
 
 pub fn nu_interval(n: u32, m: u32, s: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldintervalsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -41,7 +41,7 @@ pub fn nu_interval(n: u32, m: u32, s: u32) -> u32 {
 
 pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldsignedsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -52,13 +52,13 @@ pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
 
 // Behaves according to problem A.18
 pub fn nu_signed_exception(n: u32, m: u32, h: u32) -> bool {
-    let expected = cmp::min(n, c(h as u32, m) as u32);
+    let expected = cmp::min(n, c(h, m));
     nu_signed(n, m, h) == expected
 }
 
 pub fn nu_signed_interval(n: u32, m: u32, s: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldintervalsignedsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -69,7 +69,7 @@ pub fn nu_signed_interval(n: u32, m: u32, s: u32) -> u32 {
 
 pub fn nu_restricted(n: u32, m: u32, h: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldrestrictedsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -85,18 +85,18 @@ pub fn nu_restricted_exceptions(n: u32) -> u32 {
             if h >= m {
                 return false;
             }
-            let expected = cmp::min(n, choose(*m, *h)) as u32;
-            nu_restricted(n as u32, *m, *h as u32) != expected
+            let expected = cmp::min(n, choose(*m, *h));
+            nu_restricted(n, *m, *h) != expected
         })
         //.inspect(|(h, m)| println!("Exception: h={}, m={}", h, m))
-        .count() as u32;
+        .count();
 
-    excepts_number
+    excepts_number as u32
 }
 
 pub fn nu_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldintervalrestrictedsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -107,7 +107,7 @@ pub fn nu_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
 
 pub fn nu_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldrestrictedsignedsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
@@ -123,18 +123,18 @@ pub fn nu_signed_restricted_exceptions(n: u32) -> u32 {
             if h >= m {
                 return false;
             }
-            let expected = cmp::min(n, choose(*m, *h)*(2u32).pow(*h)) as u32;
-            nu_signed_restricted(n as u32, *m, *h as u32) != expected
+            let expected = cmp::min(n, choose(*m, *h)*(2u32).pow(*h));
+            nu_signed_restricted(n, *m, *h) != expected
         })
         // .inspect(|(h, m)| println!("Exception: h={}, m={}", h, m))
-        .count() as u32;
+        .count();
 
-    excepts_number
+    excepts_number as u32
 }
 
 pub fn nu_signed_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
     let mut curr_greatest = 0;
-    for a in each_set_exact(n as u32, m) {
+    for a in each_set_exact(n, m) {
         let size = a.hfoldintervalrestrictedsignedsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;

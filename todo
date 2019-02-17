@@ -1,5 +1,6 @@
 1. change each_set_exact to each_set_exact_zero where applicable
 2. implement f function in chapter_b
-3. make actual unit tests instead of weird fake ones
+3. turn all or most textbook tables into unit tests
 4. documentation
 5. consistent argument orders
+6. make nu_exceptions visible from the CLI

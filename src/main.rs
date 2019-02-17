@@ -6,6 +6,7 @@ pub mod comb;
 use comb::chapter_a::*;
 use comb::chapter_b::*;
 use comb::chapter_c::*;
+use comb::chapter_d::*;
 
 pub mod gburg_emulator;
 use gburg_emulator::*;
@@ -72,7 +73,7 @@ fn main() {
                                      .short("f")
                                      .long("function")
                                      .value_name("F_NAME")
-                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h)")
+                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); ro(n, m, h)")
                                      .required(true)
                                      .takes_value(true))
                                 .arg(Arg::with_name("arguments")
@@ -189,6 +190,17 @@ fn main() {
                 (true, false, true)   => Box::new(|a, b, _c| sigma_restricted_interval(a, b)),
                 (true, true, true)    => Box::new(|a, b, _c| sigma_signed_restricted_interval(a, b)),
             },
+            "ro" => match (interval, signed, restricted) {
+                (false, false, false) => Box::new(|a, b, c| ro(a, b, c)),
+                (false, true, false)  => Box::new(|a, b, c| ro_signed(a, b, c)),
+                (false, false, true)  => Box::new(|a, b, c| ro_restricted(a, b, c)),
+                (false, true, true)   => Box::new(|a, b, c| ro_signed_restricted(a, b, c)),
+                // Interval functions
+                (true, false, false)  => Box::new(|a, b, c| ro_interval(a, b, c)),
+                (true, true, false)   => Box::new(|a, b, c| ro_signed_interval(a, b, c)),
+                (true, false, true)   => Box::new(|a, b, c| ro_restricted_interval(a, b, c)),
+                (true, true, true)    => Box::new(|a, b, c| ro_signed_restricted_interval(a, b, c)),
+            },
             x => panic!("Unsupported or unrecognized function: {}", x)
         };
 
@@ -205,6 +217,9 @@ fn main() {
         if arguments.len() != 3 && fchoice == "nu" {
             panic!("Nu takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
+        if arguments.len() != 3 && fchoice == "nu" {
+            panic!("Ro takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
+        }
         if arguments.len() != 2 && fchoice == "phi" {
             panic!("Phi takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
@@ -217,83 +232,5 @@ fn main() {
         let computation: u32 = func(arguments[0], arguments[1], third_arg);
 
         println!("{}", computation);
-    }
-}
-
-
-#[cfg(test)]
-mod tests {
-    use fastset::*;
-    
-    #[test]
-    fn test_sets() {
-        let mut s = FastSet::from(&[2, 4, 10][..]);
-        s.cycle(5, 11);
-        println!("{:?}", s);
-    }
-
-    #[test]
-    fn test_sumsets() {
-        let s1 = FastSet::from(&[1, 3][..]);
-        let s2 = FastSet::from(&[2, 4, 5][..]);
-        let s3 = s1.simplesumset(&s2, 10);
-        println!("{:?}", s3);
-    }
-
-    #[test]
-    fn test_hfolds() {
-        let s1 = FastSet::from(&[2, 3][..]);
-        for iter in 0..=12 {
-            println!("{}A = {:?}", iter, s1.hfoldsumset(iter, 13));
-        }
-        println!("");
-
-        assert!(!s1.hfoldsumset(11, 13).isfull(12));
-        assert!(s1.hfoldsumset(12, 13).isfull(12));
-        // TODO: Maybe more tests of off-by-one isfulls?
-    }
-
-    #[test]
-    fn test_iterators() {
-        for a in each_set_exact_zero(6, 3) {
-            println!("{:?}", a);
-        }
-    }
-
-    #[test]
-    fn test_multipurpose() {
-        // Page 133
-        // for n in 2..=21 {
-        //     println!("n: {}, exceptions: {}", n, nu_exceptions(n));
-        // }
-        for a in each_set_exact(50, 5) {
-            if a.hfoldsumset(3, 50).size() == 20 {
-                println!("{:?}", a);
-            }
-        }
-    }
-
-    #[test]
-    fn test_2() {
-        println!("{:?}", FastSet::from(&[1,3,8][..]).hfoldsumset(2, 20));
-    }
-
-    #[test]
-    fn test_phi() {
-        for h in 1..10 {
-            for n in 2..=9 {
-                let mut found = false;
-                for a in each_set_exact(10, n) {
-                    if a.hfoldsumset(h, 10).isfull(10) {
-                        println!("A: {:?}, h: {}, n: {}", a, h, n);
-                        found = true;
-                        break;
-                    }
-                }
-                if found {
-                    break;
-                }
-            }
-        }
     }
 }
