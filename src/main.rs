@@ -17,6 +17,8 @@ extern crate clap;
 
 use clap::{Arg, App, SubCommand};
 
+static mut VERBOSE: bool = false;
+
 fn main() {
     let matches = App::new("Additive Combinatorics")
                     .version("0.1")
@@ -69,6 +71,11 @@ fn main() {
                                 .about("Compute the value of a combinatoric function found in the notation section of the book")
                                 .version("0.1")
                                 .author("Matt Torrence <torrma01@gettysburg.edu>")
+                                // Not yet implemented
+                                // .arg(Arg::with_name("verbose")
+                                //      .short("v")
+                                //      .long("verbose")
+                                //      .help("Print out extra information other than the result, if available for the chosen function"))
                                 .arg(Arg::with_name("function")
                                      .short("f")
                                      .long("function")
@@ -145,6 +152,13 @@ fn main() {
     }
 
     if let Some(matches) = matches.subcommand_matches("compute") {
+        if matches.is_present("verbose") {
+            // Only runs on startup
+            unsafe {
+                VERBOSE = true;
+            }
+        }
+
         let fchoice = matches.value_of("function").unwrap().trim().to_lowercase();
         let argchoice = matches.value_of("arguments").unwrap();
         
@@ -153,7 +167,6 @@ fn main() {
         let interval: bool = matches.is_present("interval");
         
         // Parse fchoice
-        // TODO: Maybe support the actual greek letters as well?
         // Ignores the last argument if it's not necessary
         let func: Box<Fn(u32, u32, u32) -> u32> = match fchoice.as_ref()
         {
