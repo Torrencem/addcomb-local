@@ -53,13 +53,13 @@ impl FastSet {
 
     #[inline]
     pub fn hfoldintervalsumset(&self, hs: (u32, u32), n: u32) -> FastSet {
-        let (mut h1,h2) = hs;
-        h1 -= 1;
+        let (h1,h2) = hs;
+        
         let mut final_res = 0u64;
         let mut res = 0u64;
         let mut prev = 1u64;
         for i in 0..=hs.1 {
-            if in_interval(hs.1 - i, (h1, h2)) {
+            if in_interval(i, (h1, h2)) {
                 final_res |= prev;
             }
             let mut c1 = self.contents;
@@ -331,10 +331,10 @@ mod tests {
 
     #[test]
     pub fn test_intervals() {
-        let a = FastSet::from(&[0, 1, 2, 3, 10][..]);
-        for h in 1..=3 {
+        let a = FastSet::from(&[2, 3, 10][..]);
+        for h in 0..=3 {
             println!("{}: {:?}", h, a.hfoldsumset(h, 45));
         }
-        println!("interval: {:?}", a.hfoldintervalsumset((1, 3), 45));
+        println!("interval: {:?}", a.hfoldintervalsumset((0, 3), 45));
     }
 }

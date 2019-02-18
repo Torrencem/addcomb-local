@@ -2,6 +2,11 @@ use std::u64::MAX;
 use std::fmt;
 
 #[inline]
+fn bit_scan_low(val: u64) -> u32 {
+    return val.trailing_zeros() as u32;
+}
+
+#[inline]
 pub fn cycle(scontents: u64, i: u32, m: u32) -> u64 {
     let mut ret = scontents;
     let mut wrapped: u64 = MAX << (m - i); // Mask the elements which will get wrapped around
@@ -75,6 +80,18 @@ impl FastSet {
         assert!(i < m);
         self.contents = cycle(self.contents, i, m);
     }
+
+    #[inline]
+    pub fn as_vec(&self) -> Vec<u32> {
+        let mut ret: Vec<u32> = Vec::with_capacity(self.size() as usize);
+        let mut c1 = self.contents;
+        while c1 != 0 {
+            let n = bit_scan_low(c1);
+            ret.push(n);
+            c1 &= c1 - 1;
+        }
+        ret
+    }
 }
 
 
@@ -137,9 +154,9 @@ pub fn each_set(max_size: u32) -> EachSet {
 }
 
 pub fn each_set_exact(max_size: u32, set_size: u32) -> EachSetExact {
-    assert!(max_size > set_size);
+    assert!(max_size >= set_size);
     let naivestate = (1u64 << (set_size)) - 1;
-    let setmask = !((1u64 << (max_size + 1)) - 1);
+    let setmask = !((1u64 << (max_size)) - 1);
     return EachSetExact {state: naivestate, setmask: setmask, doneflag: false}
 }
 
@@ -183,6 +200,13 @@ pub fn each_set_exact_no_zero(max_size: u32, set_size: u32) -> EachSetExactNoZer
 impl fmt::Debug for FastSet {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "FastSet {:?}", (0..64).filter(|n| self.access(*n)).collect::<Vec<u32>>())
+    }
+}
+
+impl fmt::Display for FastSet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s = format!("{:?}", self.as_vec());
+        write!(f, "{}", s.replace("[", "{").replace("]", "}"))
     }
 }
 
@@ -232,6 +256,13 @@ mod tests {
                 assert!(c.access(i) == (a.access(i) || b.access(i)));
                 assert!(d.access(i) == (a.access(i) && b.access(i)));
             }
+        }
+    }
+
+    #[test]
+    fn test_each_exact() {
+        for a in each_set_exact(14, 4) {
+            println!("{}", a);
         }
     }
 }

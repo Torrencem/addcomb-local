@@ -4,10 +4,12 @@ use fastset::*;
 pub fn phi(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldsumset(h, n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }
@@ -17,7 +19,19 @@ pub fn phi(n: u32, h: u32) -> u32 {
 
 #[inline]
 pub fn phi_interval(n: u32, s: u32) -> u32 {
-    phi(n, s) - 1
+    for m in 1u32.. {
+        if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
+            return m;
+        }
+        for a in each_set_exact(n as u32, m) {
+            if a.hfoldintervalsumset((0, s), n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
+                return m;
+            }
+        }
+    }
+    panic!();
 }
 
 // TODO: Maybe impliment f and g functions on page 131
@@ -26,10 +40,12 @@ pub fn phi_interval(n: u32, s: u32) -> u32 {
 pub fn phi_signed(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldsignedsumset(h, n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }
@@ -38,12 +54,14 @@ pub fn phi_signed(n: u32, h: u32) -> u32 {
 }
 
 pub fn phi_signed_interval(n: u32, s: u32) -> u32 {
-    for m in 2u32.. {
+    for m in 1u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldintervalsignedsumset((0, s), n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }
@@ -55,10 +73,12 @@ pub fn phi_signed_interval(n: u32, s: u32) -> u32 {
 pub fn phi_restricted(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldrestrictedsumset(h, n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }
@@ -67,12 +87,14 @@ pub fn phi_restricted(n: u32, h: u32) -> u32 {
 }
 
 pub fn phi_restricted_interval(n: u32, s: u32) -> u32 {
-    for m in 2u32.. {
+    for m in 1u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldintervalrestrictedsumset((0, s), n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }
@@ -83,10 +105,12 @@ pub fn phi_restricted_interval(n: u32, s: u32) -> u32 {
 pub fn phi_signed_restricted(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldrestrictedsignedsumset(h, n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }
@@ -95,12 +119,14 @@ pub fn phi_signed_restricted(n: u32, h: u32) -> u32 {
 }
 
 pub fn phi_signed_restricted_interval(n: u32, s: u32) -> u32 {
-    for m in 2u32.. {
+    for m in 1u32.. {
         if m as u32 >= n {
+            info!("[phi] No non-trivial spanning set found");
             return m;
         }
         for a in each_set_exact(n as u32, m) {
             if a.hfoldintervalrestrictedsignedsumset((0, s), n).isfull(n) {
+                info!("[phi] Found spanning set: {}", a);
                 return m;
             }
         }

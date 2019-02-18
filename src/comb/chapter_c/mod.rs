@@ -7,6 +7,7 @@ pub fn sigma(n: u32, h: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n as u32, m as u32) {
             if a.hfoldsumset(h as u32, n).size() == expected as u32 {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -24,6 +25,7 @@ pub fn sigma_interval(n: u32, s: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalsumset((0, s), n).size() == expected {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -39,8 +41,9 @@ pub fn sigma_signed(n: u32, h: u32) -> u32 {
     for m in 2.. {
         let expected = c(h, m);
         let mut found = false;
-        for a in each_set_exact_zero(n as u32, m as u32) {
+        for a in each_set_exact_zero(n, m) {
             if a.hfoldsignedsumset(h as u32, n).size() == expected as u32 {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -58,6 +61,7 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalsignedsumset((0,s), n).size() == expected {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -75,6 +79,7 @@ pub fn sigma_restricted(n: u32, h: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldrestrictedsumset(h, n).size() == expected {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -92,6 +97,7 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalrestrictedsumset((0,s), n).size() == expected {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -109,6 +115,7 @@ pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldrestrictedsignedsumset(h, n).size() == expected {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -126,6 +133,7 @@ pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalrestrictedsumset((0,s), n).size() == expected {
+                info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
             }

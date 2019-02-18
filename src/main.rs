@@ -14,10 +14,29 @@ use gburg_emulator::*;
 extern crate rayon;
 #[macro_use] extern crate itertools;
 extern crate clap;
+#[macro_use]
+extern crate log;
+use log::{Record, Level, Metadata, LevelFilter};
 
 use clap::{Arg, App, SubCommand};
 
-// static mut VERBOSE: bool = false;
+static CONSOLE_LOGGER: ConsoleLogger = ConsoleLogger;
+
+struct ConsoleLogger;
+
+impl log::Log for ConsoleLogger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        metadata.level() <= Level::Info
+    }
+
+    fn log(&self, record: &Record) {
+        if self.enabled(record.metadata()) {
+            println!("{}", record.args());
+        }
+    }
+
+    fn flush(&self) {}
+}
 
 fn main() {
     let matches = App::new("Additive Combinatorics")
@@ -71,11 +90,10 @@ fn main() {
                                 .about("Compute the value of a combinatoric function found in the notation section of the book")
                                 .version("0.1")
                                 .author("Matt Torrence <torrma01@gettysburg.edu>")
-                                // Not yet implemented
-                                // .arg(Arg::with_name("verbose")
-                                //      .short("v")
-                                //      .long("verbose")
-                                //      .help("Print out extra information other than the result, if available for the chosen function"))
+                                .arg(Arg::with_name("verbose")
+                                     .short("v")
+                                     .long("verbose")
+                                     .help("Print out extra information other than the result, if available for the chosen function"))
                                 .arg(Arg::with_name("function")
                                      .short("f")
                                      .long("function")
@@ -152,12 +170,10 @@ fn main() {
     }
 
     if let Some(matches) = matches.subcommand_matches("compute") {
-        // if matches.is_present("verbose") {
-        //     // Only runs on startup
-        //     unsafe {
-        //         VERBOSE = true;
-        //     }
-        // }
+        if matches.is_present("verbose") {
+            log::set_logger(&CONSOLE_LOGGER).unwrap_or_else(|_| println!("Warning: unable to setup logger!\nVerbose output will be disabled"));
+            log::set_max_level(LevelFilter::Info);
+        }
 
         let fchoice = matches.value_of("function").unwrap().trim().to_lowercase();
         let argchoice = matches.value_of("arguments").unwrap();
@@ -276,8 +292,13 @@ fn main() {
 
         let third_arg = if arguments.len() == 2 { 0 } else { arguments[2] };
 
+        let intv_text = format!("[{},{}]", if fchoice == "tau" {1} else {0}, arguments[arguments.len() - 1]);
+        let rest_of_args_text: String = argchoice[..argchoice.rfind(",").unwrap()].to_string();
+        info!("Computing {}{}{}({},{})...", fchoice, if signed {"+-"} else {""}, if restricted {"^"} else {""}, rest_of_args_text, if interval {intv_text} else {arguments[0].to_string()});
+
         let computation: u32 = func(arguments[0], arguments[1], third_arg);
 
+        info!("Final result:");
         println!("{}", computation);
     }
 }

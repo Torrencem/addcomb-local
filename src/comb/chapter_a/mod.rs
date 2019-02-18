@@ -4,13 +4,17 @@ use fastset::*;
 use comb::*;
 
 pub fn nu(n: u32, m: u32, h: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldsumset(h, n));
     curr_greatest
 }
 
@@ -29,24 +33,32 @@ pub fn nu_exceptions(n: u32) -> u32 {
 }
 
 pub fn nu_interval(n: u32, m: u32, s: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsumset((0, s), n));
     curr_greatest
 }
 
 pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldsignedsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldsignedsumset(h, n));
     curr_greatest
 }
 
@@ -57,24 +69,32 @@ pub fn nu_signed_exception(n: u32, m: u32, h: u32) -> bool {
 }
 
 pub fn nu_signed_interval(n: u32, m: u32, s: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalsignedsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsignedsumset((0, s), n));
     curr_greatest
 }
 
 pub fn nu_restricted(n: u32, m: u32, h: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldrestrictedsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldrestrictedsumset(h, n));
     curr_greatest
 }
 
@@ -95,24 +115,32 @@ pub fn nu_restricted_exceptions(n: u32) -> u32 {
 }
 
 pub fn nu_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalrestrictedsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsumset((0, s), n));
     curr_greatest
 }
 
 pub fn nu_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldrestrictedsignedsumset(h, n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldrestrictedsignedsumset(h, n));
     curr_greatest
 }
 
@@ -133,13 +161,17 @@ pub fn nu_signed_restricted_exceptions(n: u32) -> u32 {
 }
 
 pub fn nu_signed_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
+    let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalrestrictedsignedsumset((0, s), n).size();
         if size > curr_greatest {
             curr_greatest = size;
+            greatest_set = a;
         }
     }
+    info!("[nu] Set with greatest sumset: {}", greatest_set);
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsignedsumset((0, s), n));
     curr_greatest
 }
 
