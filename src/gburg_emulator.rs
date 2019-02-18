@@ -73,22 +73,3 @@ pub fn emulate(params: GeneratorForm) {
 
     println!("Done!");
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    pub fn test_emulation() {
-        let test_form = GeneratorForm {
-            order: 60,
-            m: 11,
-            h: TermSize::Vary(3,4),
-            signed: true,
-            repeat: true,
-            size_filter: (1, 59),
-            terminate: true
-        };
-        emulate(test_form);
-    }
-}
