@@ -183,7 +183,7 @@ mod tests {
     #[test]
     pub fn test_nu_signed() {
         let m = 3;
-        for n in 10..22 {
+        for n in 10..15 {
             println!("{}: {}", n, nu_signed_exception(n, m, 2));
         }
     }
@@ -191,14 +191,14 @@ mod tests {
     // Partially recreate table on page 117 (for Problem A.31)
     #[test]
     pub fn test_nu_restricted() {
-        for n in 8..=21 {
+        for n in 8..=10 {
             println!("{}: {}", n, nu_restricted_exceptions(n));
         }
     }
 
     #[test]
     pub fn test_nu_signed_restricted() {
-        for n in 8..=15 {
+        for n in 8..=10 {
             println!("{}: {}", n, nu_signed_restricted_exceptions(n));
         }
     }

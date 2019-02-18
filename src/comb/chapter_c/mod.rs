@@ -152,7 +152,7 @@ mod tests {
     // Verify examples according to table on page 153 (details page 154)
     #[test]
     pub fn test_sigma() {
-        for n in 30..38 {
+        for n in 5..10 {
             let expected = (((4.0 * (n as f64) - 3.0).sqrt() + 1.0) / 2.0).floor() as u32;
 
             if sigma(n, 2) != expected {

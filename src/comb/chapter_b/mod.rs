@@ -142,7 +142,7 @@ mod tests {
     #[test]
     pub fn test_phi_interval() {
         let m = 5;
-        for n in 1..60 {
+        for n in 1..5 {
             println!("{}: {}", n, phi_interval(n, m));
         }
     }
