@@ -98,7 +98,7 @@ fn main() {
                                      .short("f")
                                      .long("function")
                                      .value_name("F_NAME")
-                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); ro(n, m, h); chi(n, h); tau(n, h)")
+                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); rho(n, m, h); chi(n, h); tau(n, h)")
                                      .required(true)
                                      .takes_value(true))
                                 .arg(Arg::with_name("arguments")
@@ -219,8 +219,8 @@ fn main() {
                 (true, false, true)   => Box::new(|a, b, _c| sigma_restricted_interval(a, b)),
                 (true, true, true)    => Box::new(|a, b, _c| sigma_signed_restricted_interval(a, b)),
             },
-            "ro" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, c| ro(a, b, c)),
+            "rho" => match (interval, signed, restricted) {
+                (false, false, false) => Box::new(|a, b, c| rho(a, b, c)),
                 (false, true, false)  => Box::new(|a, b, c| ro_signed(a, b, c)),
                 (false, false, true)  => Box::new(|a, b, c| ro_restricted(a, b, c)),
                 (false, true, true)   => Box::new(|a, b, c| ro_signed_restricted(a, b, c)),
@@ -268,8 +268,8 @@ fn main() {
         if arguments.len() != 3 && fchoice == "nu" {
             panic!("Nu takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
-        if arguments.len() != 3 && fchoice == "ro" {
-            panic!("Ro takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
+        if arguments.len() != 3 && fchoice == "rho" {
+            panic!("rho takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
         if arguments.len() != 2 && fchoice == "phi" {
             panic!("Phi takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
@@ -284,7 +284,7 @@ fn main() {
             panic!("Tau takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
         }
 
-        if fchoice == "nu" || fchoice == "ro" {
+        if fchoice == "nu" || fchoice == "rho" {
             if arguments[1] > arguments[0] {
                 panic!("The value of m given cannot be larger than the value of n!");
             }
@@ -294,7 +294,7 @@ fn main() {
 
         let intv_text = format!("[{},{}]", if fchoice == "tau" {1} else {0}, arguments[arguments.len() - 1]);
         let rest_of_args_text: String = argchoice[..argchoice.rfind(",").unwrap()].to_string();
-        info!("Computing {}{}{}({},{})...", fchoice, if signed {"+-"} else {""}, if restricted {"^"} else {""}, rest_of_args_text, if interval {intv_text} else {arguments[0].to_string()});
+        info!("Computing {}{}{}({},{})...", fchoice, if signed {"+-"} else {""}, if restricted {"^"} else {""}, rest_of_args_text, if interval {intv_text} else {arguments[arguments.len() - 1].to_string()});
 
         let computation: u32 = func(arguments[0], arguments[1], third_arg);
 

@@ -138,12 +138,24 @@ pub fn phi_signed_restricted_interval(n: u32, s: u32) -> u32 {
 mod tests {
     use super::*;
 
-    // table on page 129
+    // From table on page 129
     #[test]
     pub fn test_phi_interval() {
-        let m = 5;
-        for n in 1..5 {
-            println!("{}: {}", n, phi_interval(n, m));
-        }
+        assert_eq!(phi_interval(17, 2), 5);
+        assert_eq!(phi_interval(18, 2), 6);
+        assert_eq!(phi_interval(9, 3),  3);
+        assert_eq!(phi_interval(8, 3),  2);
+        assert_eq!(phi_interval(26, 4), 3);
+        assert_eq!(phi_interval(49, 4), 4);
+    }
+
+    // From table on page 147
+    #[test]
+    pub fn test_phi_restricted_interval() {
+        assert_eq!(phi_restricted_interval(10, 2), 4);
+        assert_eq!(phi_restricted_interval(3, 2), 2);
+        assert_eq!(phi_restricted_interval(5, 3), 3);
+        assert_eq!(phi_restricted_interval(8, 4), 3);
+        assert_eq!(phi_restricted_interval(9, 4), 4);
     }
 }

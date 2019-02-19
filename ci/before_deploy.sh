@@ -20,7 +20,13 @@ main() {
     # TODO Update this to build the artifacts that matter to you
     cross rustc --bin addcomb --target $TARGET --release -- -C lto
 
-    cp target/$TARGET/release/addcomb $stage/
+    # Move the binaries (whichever exist) to the stage
+    if [-f target/$TARGET/release/addcomb.exe]; then
+        cp target/$TARGET/release/addcomb.exe $stage/
+    fi
+    if [-f target/$TARGET/release/addcomb]; then
+        cp target/$TARGET/release/addcomb $stage/
+    fi
 
     cd $stage
     tar czf $src/$CRATE_NAME-$TRAVIS_TAG-$TARGET.tar.gz *

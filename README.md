@@ -17,7 +17,7 @@ To use: Download a binary for your system from the [releases page](https://githu
     OPTIONS:
         -a, --args <VALUES>        Comma-seperated values of the function to compute (Example: 10,20)
         -f, --function <F_NAME>    The function to compute. Supported functions (with interval variants, with s replacing h,
-                                    where applicable): nu(n, m, h); phi(n, h); sigma(n, h); ro(n, m, h); chi(n, h); tau(n, h)
+                                    where applicable): nu(n, m, h); phi(n, h); sigma(n, h); rho(n, m, h); chi(n, h); tau(n, h)
 
 
 
