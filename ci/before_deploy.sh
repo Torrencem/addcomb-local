@@ -21,10 +21,10 @@ main() {
     cross rustc --bin addcomb --target $TARGET --release -- -C lto
 
     # Move the binaries (whichever exist) to the stage
-    if [-f target/$TARGET/release/addcomb.exe]; then
+    if [ -f target/$TARGET/release/addcomb.exe]; then
         cp target/$TARGET/release/addcomb.exe $stage/
     fi
-    if [-f target/$TARGET/release/addcomb]; then
+    if [ -f target/$TARGET/release/addcomb]; then
         cp target/$TARGET/release/addcomb $stage/
     fi
 
