@@ -34,7 +34,7 @@ pub fn phi_interval(n: u32, s: u32) -> u32 {
     panic!();
 }
 
-// TODO: Maybe impliment f and g functions on page 131
+// TODO: Maybe impliment f and g functions on page 132
 //(need an upper bound on n though, maybe read paper?)
 
 pub fn phi_signed(n: u32, h: u32) -> u32 {
