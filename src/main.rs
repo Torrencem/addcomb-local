@@ -13,6 +13,7 @@ use gburg_emulator::*;
 
 extern crate rayon;
 #[macro_use] extern crate itertools;
+#[macro_use] extern crate lazy_static;
 extern crate clap;
 #[macro_use]
 extern crate log;

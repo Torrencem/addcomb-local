@@ -1,14 +1,26 @@
 change each_set_exact to each_set_exact_zero where applicable
+
 implement f function in chapter_b
-turn all or most textbook tables into unit tests
+
 make nu_exceptions visible from the CLI
+
 make a and s (and maybe choose) visible from the CLI
+
 remove excess "as u32"'s
+
 check the 2.. in chapter_c
+
+check special cases of tau^ with Theorem F.88 are implemented correctly
+
+check n = 1 case for all of tau
+
+check ALL taus might need to be (1..=n)? But it throws an exception for some reason
+
 add the N version of the functions where it's possible (such as chapter_f)
-add global verbose flag
+
 change panic to literally anything else (graceful exit)
 
 low priority:
 documentation
 consistent internal argument orders
+graceful exit on completely invalid parameters

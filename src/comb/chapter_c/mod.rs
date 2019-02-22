@@ -2,7 +2,7 @@ use fastset::*;
 use comb::*;
 
 pub fn sigma(n: u32, h: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = choose(m + h - 1, h);
         let mut found = false;
         for a in each_set_exact_zero(n as u32, m as u32) {
@@ -12,15 +12,15 @@ pub fn sigma(n: u32, h: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_interval(n: u32, s: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = choose(m + s, s);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -30,15 +30,15 @@ pub fn sigma_interval(n: u32, s: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_signed(n: u32, h: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = c(h, m);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -48,15 +48,15 @@ pub fn sigma_signed(n: u32, h: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = a(m, s);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -66,15 +66,15 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_restricted(n: u32, h: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = choose(m, h);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -84,15 +84,15 @@ pub fn sigma_restricted(n: u32, h: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)).sum();
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -102,15 +102,15 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = choose(m, h)*(2u32).pow(h);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -120,15 +120,15 @@ pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
 }
 
 pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
-    for m in 2.. {
+    for m in (2..n).rev() {
         let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)*(2u32).pow(h)).sum();
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
@@ -138,8 +138,8 @@ pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
                 break;
             }
         }
-        if !found {
-            return m - 1;
+        if found {
+            return m;
         }
     }
     panic!();
@@ -155,9 +155,7 @@ mod tests {
         for n in 5..10 {
             let expected = (((4.0 * (n as f64) - 3.0).sqrt() + 1.0) / 2.0).floor() as u32;
 
-            if sigma(n, 2) != expected {
-                println!("s({}) = {} != {}", n, sigma(n, 2), expected);
-            }
+            assert!(sigma(n, 2) == expected);
         }
     }
 }

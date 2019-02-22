@@ -5,6 +5,7 @@ pub mod chapter_c;
 pub mod chapter_d;
 pub mod chapter_e;
 pub mod chapter_f;
+pub mod chapter_g;
 pub mod hfolds;
 
 use std::cmp;
@@ -36,6 +37,39 @@ pub fn a(h: u32, m: u32) -> u32 {
     (0..=cmp::min(m, h)+1).map(|i| {
         choose(m, i) * choose(h, i) * 2u32.pow(i)
     }).sum()
+}
+
+#[inline]
+pub fn factorial(x: u32) -> u32 {
+    let mut prod = 1;
+    for val in 1..=x {
+        prod *= val;
+    }
+    prod
+}
+
+fn slow_prime(n: usize) -> bool {
+    for x in 2..=(n as f32).sqrt().ceil() as usize {
+        if x % n == 0 {
+            return false;
+        }
+    }
+    return true;
+}
+
+lazy_static! {
+    static ref PRIMES: [bool; 64] = {
+        let mut p = [false; 64];
+        for i in 0..63 {
+            p[i] = slow_prime(i);
+        }
+        p
+    };
+}
+
+#[inline]
+pub fn prime(n: u32) -> bool {
+    PRIMES[n as usize]
 }
 
 #[cfg(test)]
