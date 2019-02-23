@@ -2,7 +2,7 @@
 
 A compilation of useful functions and tools based on this [additive combinatorics book](https://arxiv.org/pdf/1705.07444.pdf).
 
-To use: Download a binary for your system from the [releases page](https://github.com/torrencem/addcomb/releases). Use the executable from the command line. A helpful place to start is ``./addcomb.exe compute --help``:
+To use this project, download a binary for your system from the [releases page](https://github.com/torrencem/addcomb/releases). Use the executable from the command line. A helpful place to start is ``./addcomb.exe compute --help``:
 
     USAGE:
         addcomb compute [FLAGS] --args <VALUES> --function <F_NAME>
