@@ -127,7 +127,7 @@ fn main() {
                                     .help("Find all sumsets, as opposed to stopping when the first is found")))
                     .subcommand(SubCommand::with_name("compute")
                                 .about("Compute the value of a combinatoric function found in the notation section of the book")
-                                .version("0.1")
+                                .version("0.2")
                                 .author("Matt Torrence <torrma01@gettysburg.edu>")
                                 .arg(Arg::with_name("verbose")
                                      .short("v")
@@ -224,7 +224,7 @@ fn main() {
         let interval: bool = matches.is_present("interval");
         
         // Parse fchoice
-        // Ignores the last argument if it's not necessary
+        // Ignores the last arguments if they aren't necessary
         let func: Box<Fn(u32, u32, u32, u32) -> u32> = match fchoice.as_ref()
         {
             "nu" => match (interval, signed, restricted) {
