@@ -1,6 +1,6 @@
 [package]
 name = "addcomb"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["torrencem <matt@torrencefamily.net>"]
 publish = false
 
@@ -10,6 +10,7 @@ rayon = "1.0.3"
 clap = "2.32.0"
 log = "0.4.6"
 lazy_static = "1.2.0"
+regex = "1.1.0"
 
 [dev-dependencies]
 rand = "0.6.5"

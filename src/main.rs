@@ -7,6 +7,7 @@ use comb::chapter_c::*;
 use comb::chapter_d::*;
 use comb::chapter_e::*;
 use comb::chapter_f::*;
+use comb::chapter_g::*;
 
 pub mod gburg_emulator;
 use gburg_emulator::*;
@@ -18,8 +19,15 @@ extern crate clap;
 #[macro_use]
 extern crate log;
 use log::{Record, Level, Metadata, LevelFilter};
+extern crate regex;
+
+use regex::Regex;
+use regex::Captures;
 
 use clap::{Arg, App, SubCommand};
+
+use std::fmt::Display;
+use std::process::exit;
 
 static CONSOLE_LOGGER: ConsoleLogger = ConsoleLogger;
 
@@ -39,9 +47,39 @@ impl log::Log for ConsoleLogger {
     fn flush(&self) {}
 }
 
+lazy_static! {
+    static ref THREE_ARG_REG: Regex        = Regex::new(r"^(\d+),(\d+),(\d+)$").unwrap();
+    static ref THREE_ARG_INTV_REG: Regex   = Regex::new(r"^(\d+),(\d+),\[(\d+),(\d+)\]$").unwrap();
+
+    static ref TWO_ARG_REG: Regex          = Regex::new(r"^(\d+),(\d+)$").unwrap();
+    static ref TWO_ARG_INTV_REG: Regex     = Regex::new(r"^(\d+),\[(\d+),(\d+)\]$").unwrap();
+
+    static ref MU_REG: Regex               = Regex::new(r"^(\d+),(\d+),(\d+)$").unwrap();
+}
+
+static THREE_ARG_ERR: &str      = &" expects three arguments, like 30,20,10";
+static THREE_ARG_INTV_ERR: &str = &" expects two regular arguments, and an interval, like 30,20,[0,4]";
+
+static TWO_ARG_ERR: &str        = &" expects two arguments, like 30,20";
+static TWO_ARG_INTV_ERR: &str   = &" expects one regular argument, and an interval, like 30,[0,4]";
+
+static MU_ARG_ERR: &str         = &"mu expects three arguments formatted as n,k,l (e.g. 20,1,3)";
+
+static I_TEXT: &str = &"Additive Combinatorics calculator v0.2";
+
+fn from_capt(m: &Captures, i: usize) -> u32 {
+    m.get(i)
+    .map_or(0, |m| m.as_str().parse::<u32>().unwrap())
+}
+
+fn graceful_exit<D: Display>(message: D) -> ! {
+    eprintln!("{}", message);
+    exit(1)
+}
+
 fn main() {
     let matches = App::new("Additive Combinatorics")
-                    .version("0.1")
+                    .version("0.2")
                     .author("Matt Torrence <torrma01@gettysburg.edu>")
                     .about("Compute combinatoric functions and sumset problems")
                     .subcommand(SubCommand::with_name("emulate")
@@ -99,14 +137,14 @@ fn main() {
                                      .short("f")
                                      .long("function")
                                      .value_name("F_NAME")
-                                     .help("The function to compute. Supported functions (with interval variants, with s replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); rho(n, m, h); chi(n, h); tau(n, h)")
+                                     .help("The function to compute. Supported functions (with an interval replacing h, where applicable): nu(n, m, h); phi(n, h); sigma(n, h); rho(n, m, h); chi(n, h); tau(n, h); mu(n, k, l)")
                                      .required(true)
                                      .takes_value(true))
                                 .arg(Arg::with_name("arguments")
                                     .short("a")
                                     .long("args")
                                     .value_name("VALUES")
-                                    .help("Comma-seperated values of the function to compute (Example: 10,20)")
+                                    .help("Comma-seperated values of the function to compute (Example: 20,10,[0,2] or 20,10,3)")
                                     .required(true)
                                     .takes_value(true))
                                 .arg(Arg::with_name("signed")
@@ -120,7 +158,7 @@ fn main() {
                                 .arg(Arg::with_name("interval")
                                      .short("i")
                                      .long("interval")
-                                     .help("Use [0, s]A instead of hA in the sumset (allowed with other flags)")))
+                                     .help("Use [a, b]A instead of hA in the sumset (allowed with other flags)")))
                     .get_matches();
     
     // Emulation handler
@@ -176,6 +214,8 @@ fn main() {
             log::set_max_level(LevelFilter::Info);
         }
 
+        info!("{}", I_TEXT);
+
         let fchoice = matches.value_of("function").unwrap().trim().to_lowercase();
         let argchoice = matches.value_of("arguments").unwrap();
         
@@ -185,119 +225,199 @@ fn main() {
         
         // Parse fchoice
         // Ignores the last argument if it's not necessary
-        let func: Box<Fn(u32, u32, u32) -> u32> = match fchoice.as_ref()
+        let func: Box<Fn(u32, u32, u32, u32) -> u32> = match fchoice.as_ref()
         {
             "nu" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, c| nu(a, b, c)),
-                (false, true, false)  => Box::new(|a, b, c| nu_signed(a, b, c)),
-                (false, false, true)  => Box::new(|a, b, c| nu_restricted(a, b, c)),
-                (false, true, true)   => Box::new(|a, b, c| nu_signed_restricted(a, b, c)),
+                (false, false, false) => Box::new(|a, b, c, _d| nu(a, b, c)),
+                (false, true, false)  => Box::new(|a, b, c, _d| nu_signed(a, b, c)),
+                (false, false, true)  => Box::new(|a, b, c, _d| nu_restricted(a, b, c)),
+                (false, true, true)   => Box::new(|a, b, c, _d| nu_signed_restricted(a, b, c)),
                 // Interval functions
-                (true, false, false)  => Box::new(|a, b, c| nu_interval(a, b, c)),
-                (true, true, false)   => Box::new(|a, b, c| nu_signed_interval(a, b, c)),
-                (true, false, true)   => Box::new(|a, b, c| nu_restricted_interval(a, b, c)),
-                (true, true, true)    => Box::new(|a, b, c| nu_signed_restricted_interval(a, b, c)),
+                (true, false, false)  => Box::new(|a, b, c, d| nu_interval(a, b, (c, d))),
+                (true, true, false)   => Box::new(|a, b, c, d| nu_signed_interval(a, b, (c, d))),
+                (true, false, true)   => Box::new(|a, b, c, d| nu_restricted_interval(a, b, (c, d))),
+                (true, true, true)    => Box::new(|a, b, c, d| nu_signed_restricted_interval(a, b, (c, d))),
             },
             "phi" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, _c| phi(a, b)),
-                (false, true, false)  => Box::new(|a, b, _c| phi_signed(a, b)),
-                (false, false, true)  => Box::new(|a, b, _c| phi_restricted(a, b)),
-                (false, true, true)   => Box::new(|a, b, _c| phi_signed_restricted(a, b)),
+                (false, false, false) => Box::new(|a, b, _c, _d| phi(a, b)),
+                (false, true, false)  => Box::new(|a, b, _c, _d| phi_signed(a, b)),
+                (false, false, true)  => Box::new(|a, b, _c, _d| phi_restricted(a, b)),
+                (false, true, true)   => Box::new(|a, b, _c, _d| phi_signed_restricted(a, b)),
                 // Interval functions
-                (true, false, false)  => Box::new(|a, b, _c| phi_interval(a, b)),
-                (true, true, false)   => Box::new(|a, b, _c| phi_signed_interval(a, b)),
-                (true, false, true)   => Box::new(|a, b, _c| phi_restricted_interval(a, b)),
-                (true, true, true)    => Box::new(|a, b, _c| phi_signed_restricted_interval(a, b)),
+                (true, false, false)  => Box::new(|a, b, c, _d| phi_interval(a, (b, c))),
+                (true, true, false)   => Box::new(|a, b, c, _d| phi_signed_interval(a, (b, c))),
+                (true, false, true)   => Box::new(|a, b, c, _d| phi_restricted_interval(a, (b, c))),
+                (true, true, true)    => Box::new(|a, b, c, _d| phi_signed_restricted_interval(a, (b, c))),
             },
             "sigma" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, _c| sigma(a, b)),
-                (false, true, false)  => Box::new(|a, b, _c| sigma_signed(a, b)),
-                (false, false, true)  => Box::new(|a, b, _c| sigma_restricted(a, b)),
-                (false, true, true)   => Box::new(|a, b, _c| sigma_signed_restricted(a, b)),
+                (false, false, false) => Box::new(|a, b, _c, _d| sigma(a, b)),
+                (false, true, false)  => Box::new(|a, b, _c, _d| sigma_signed(a, b)),
+                (false, false, true)  => Box::new(|a, b, _c, _d| sigma_restricted(a, b)),
+                (false, true, true)   => Box::new(|a, b, _c, _d| sigma_signed_restricted(a, b)),
                 // Interval functions
-                (true, false, false)  => Box::new(|a, b, _c| sigma_interval(a, b)),
-                (true, true, false)   => Box::new(|a, b, _c| sigma_signed_interval(a, b)),
-                (true, false, true)   => Box::new(|a, b, _c| sigma_restricted_interval(a, b)),
-                (true, true, true)    => Box::new(|a, b, _c| sigma_signed_restricted_interval(a, b)),
+                (true, false, false)  => Box::new(|a, b, _c, _d| sigma_interval(a, b)),
+                (true, true, false)   => Box::new(|a, b, _c, _d| sigma_signed_interval(a, b)),
+                (true, false, true)   => Box::new(|a, b, _c, _d| sigma_restricted_interval(a, b)),
+                (true, true, true)    => Box::new(|a, b, _c, _d| sigma_signed_restricted_interval(a, b)),
             },
             "rho" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, c| rho(a, b, c)),
-                (false, true, false)  => Box::new(|a, b, c| ro_signed(a, b, c)),
-                (false, false, true)  => Box::new(|a, b, c| ro_restricted(a, b, c)),
-                (false, true, true)   => Box::new(|a, b, c| ro_signed_restricted(a, b, c)),
+                (false, false, false) => Box::new(|a, b, c, _d| rho(a, b, c)),
+                (false, true, false)  => Box::new(|a, b, c, _d| rho_signed(a, b, c)),
+                (false, false, true)  => Box::new(|a, b, c, _d| rho_restricted(a, b, c)),
+                (false, true, true)   => Box::new(|a, b, c, _d| rho_signed_restricted(a, b, c)),
                 // Interval functions
-                (true, false, false)  => Box::new(|a, b, c| ro_interval(a, b, c)),
-                (true, true, false)   => Box::new(|a, b, c| ro_signed_interval(a, b, c)),
-                (true, false, true)   => Box::new(|a, b, c| ro_restricted_interval(a, b, c)),
-                (true, true, true)    => Box::new(|a, b, c| ro_signed_restricted_interval(a, b, c)),
+                (true, false, false)  => Box::new(|a, b, c, d| rho_interval(a, b, (c, d) )),
+                (true, true, false)   => Box::new(|a, b, c, d| rho_signed_interval(a, b, (c, d))),
+                (true, false, true)   => Box::new(|a, b, c, d| rho_restricted_interval(a, b, (c, d))),
+                (true, true, true)    => Box::new(|a, b, c, d| rho_signed_restricted_interval(a, b, (c, d))),
             },
             "chi" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, _c| chi(a, b)),
-                (false, true, false)  => Box::new(|a, b, _c| chi_signed(a, b)),
-                (false, false, true)  => Box::new(|a, b, _c| chi_restricted(a, b)),
-                (false, true, true)   => Box::new(|a, b, _c| chi_signed_restricted(a, b)),
+                (false, false, false) => Box::new(|a, b, _c, _d| chi(a, b)),
+                (false, true, false)  => Box::new(|a, b, _c, _d| chi_signed(a, b)),
+                (false, false, true)  => Box::new(|a, b, _c, _d| chi_restricted(a, b)),
+                (false, true, true)   => Box::new(|a, b, _c, _d| chi_signed_restricted(a, b)),
                 // Interval functions
-                (true, false, false)  => Box::new(|a, b, _c| chi_interval(a, b)),
-                (true, true, false)   => Box::new(|a, b, _c| chi_signed_interval(a, b)),
-                (true, false, true)   => Box::new(|a, b, _c| chi_restricted_interval(a, b)),
-                (true, true, true)    => Box::new(|a, b, _c| chi_signed_restricted_interval(a, b)),
+                (true, false, false)  => Box::new(|a, b, c, _d| chi_interval(a, (b, c))),
+                (true, true, false)   => Box::new(|a, b, c, _d| chi_signed_interval(a, (b, c))),
+                (true, false, true)   => Box::new(|a, b, c, _d| chi_restricted_interval(a, (b, c))),
+                (true, true, true)    => Box::new(|a, b, c, _d| chi_signed_restricted_interval(a, (b, c))),
             },
             "tau" => match (interval, signed, restricted) {
-                (false, false, false) => Box::new(|a, b, _c| tau(a, b)),
-                (false, true, false)  => Box::new(|a, b, _c| tau_signed(a, b)),
-                (false, false, true)  => Box::new(|a, b, _c| tau_restricted(a, b)),
-                (false, true, true)   => Box::new(|a, b, _c| tau_signed_restricted(a, b)),
+                (false, false, false) => Box::new(|a, b, _c, _d| tau(a, b)),
+                (false, true, false)  => Box::new(|a, b, _c, _d| tau_signed(a, b)),
+                (false, false, true)  => Box::new(|a, b, _c, _d| tau_restricted(a, b)),
+                (false, true, true)   => Box::new(|a, b, _c, _d| tau_signed_restricted(a, b)),
                 // Interval functions
-                (true, false, false)  => Box::new(|a, b, _c| tau_interval(a, b)),
-                (true, true, false)   => Box::new(|a, b, _c| tau_signed_interval(a, b)),
-                (true, false, true)   => Box::new(|a, b, _c| tau_restricted_interval(a, b)),
-                (true, true, true)    => Box::new(|a, b, _c| tau_signed_restricted_interval(a, b)),
+                (true, false, false)  => Box::new(|a, b, c, _d| tau_interval(a, (b, c))),
+                (true, true, false)   => Box::new(|a, b, c, _d| tau_signed_interval(a, (b, c))),
+                (true, false, true)   => Box::new(|a, b, c, _d| tau_restricted_interval(a, (b, c))),
+                (true, true, true)    => Box::new(|a, b, c, _d| tau_signed_restricted_interval(a, (b, c))),
+            },
+            "mu" => match(signed, restricted) {
+                (false, false) => Box::new(|a, b, c, _d| mu(a, b, c)),
+                (false, true)  => Box::new(|a, b, c, _d| mu_restricted(a, b, c)),
+                (true, false)  => Box::new(|a, b, c, _d| mu_signed(a, b, c)),
+                (true, true)   => Box::new(|a, b, c, _d| mu_signed_restricted(a, b, c))
             },
             x => panic!("Unsupported or unrecognized function: {}", x)
         };
 
-        let arguments: Vec<u32> = argchoice
-            .split(",")
-            .map(|num| num.parse().unwrap_or_else(|invalid_num| panic!("Invalid numeric argument to function: {}", invalid_num)))
-            .collect();
-        
-        if arguments.len() > 3 {
-            panic!("More than 3 arguments given to the function (note, they should be comma-seperated with no spaces): {}", argchoice);
-        }
+        let arguments: (u32, u32, u32, u32) = match fchoice.as_ref() {
+            "nu" => match interval {
+                false => {
+                    let ref args = THREE_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "nu", THREE_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                },
+                true => {
+                    let ref args = THREE_ARG_INTV_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "nu interval", THREE_ARG_INTV_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                }
+            },
+            "phi" => match interval {
+                false => {
+                    let ref args = TWO_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "phi", TWO_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                },
+                true => {
+                    let ref args = TWO_ARG_INTV_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "phi interval", TWO_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                }
+            },
+            "sigma" => {
+                    let ref args = TWO_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "sigma (and sigma interval)", TWO_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+            },
+            "rho" => match interval {
+                false => {
+                    let ref args = THREE_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "rho", THREE_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                },
+                true => {
+                    let ref args = THREE_ARG_INTV_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "rho interval", THREE_ARG_INTV_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                }
+            },
+            "chi" => match interval {
+                false => {
+                    let ref args = THREE_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "chi", THREE_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                },
+                true => {
+                    let ref args = THREE_ARG_INTV_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "chi interval", THREE_ARG_INTV_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                }
+            },
+            "tau" => match interval {
+                false => {
+                    let ref args = TWO_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "tau", TWO_ARG_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                },
+                true => {
+                    let ref args = TWO_ARG_INTV_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "tau interval", TWO_ARG_INTV_ERR)));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                }
+            },
+            "mu" => match interval {
+                false => {
+                    let ref args = MU_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(MU_ARG_ERR));
+                    (from_capt(args, 1),
+                     from_capt(args, 2),
+                     from_capt(args, 3),
+                     from_capt(args, 4))
+                },
+                true => panic!("Mu with interval not yet supported")
+            },
+            _ => unreachable!()
+        };
 
-        // Special function cases:
-        if arguments.len() != 3 && fchoice == "nu" {
-            panic!("Nu takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
-        }
-        if arguments.len() != 3 && fchoice == "rho" {
-            panic!("rho takes 3 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
-        }
-        if arguments.len() != 2 && fchoice == "phi" {
-            panic!("Phi takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
-        }
-        if arguments.len() != 2 && fchoice == "chi" {
-            panic!("Chi takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
-        }
-        if arguments.len() != 2 && fchoice == "sigma" {
-            panic!("Sigma takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
-        }
-        if arguments.len() != 2 && fchoice == "tau" {
-            panic!("Tau takes 2 arguments, but {} arguments were given: {}", arguments.len(), argchoice);
-        }
+        info!("Computing {}{}{}({})...", fchoice, if signed {"+-"} else {""}, if restricted {"^"} else {""}, argchoice);
 
-        if fchoice == "nu" || fchoice == "rho" {
-            if arguments[1] > arguments[0] {
-                panic!("The value of m given cannot be larger than the value of n!");
-            }
-        }
-
-        let third_arg = if arguments.len() == 2 { 0 } else { arguments[2] };
-
-        let intv_text = format!("[{},{}]", if fchoice == "tau" {1} else {0}, arguments[arguments.len() - 1]);
-        let rest_of_args_text: String = argchoice[..argchoice.rfind(",").unwrap()].to_string();
-        info!("Computing {}{}{}({},{})...", fchoice, if signed {"+-"} else {""}, if restricted {"^"} else {""}, rest_of_args_text, if interval {intv_text} else {arguments[arguments.len() - 1].to_string()});
-
-        let computation: u32 = func(arguments[0], arguments[1], third_arg);
+        let computation: u32 = func(arguments.0, arguments.1, arguments.2, arguments.3);
 
         info!("Final result:");
         println!("{}", computation);

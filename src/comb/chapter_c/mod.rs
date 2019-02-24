@@ -16,7 +16,7 @@ pub fn sigma(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_interval(n: u32, s: u32) -> u32 {
@@ -34,7 +34,7 @@ pub fn sigma_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_signed(n: u32, h: u32) -> u32 {
@@ -52,7 +52,7 @@ pub fn sigma_signed(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
@@ -60,7 +60,7 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
         let expected = a(m, s);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
-            if a.hfoldintervalsignedsumset((0,s), n).size() == expected {
+            if a.hfoldintervalsignedsumset((0, s), n).size() == expected {
                 info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
@@ -70,7 +70,7 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_restricted(n: u32, h: u32) -> u32 {
@@ -88,7 +88,7 @@ pub fn sigma_restricted(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
@@ -96,7 +96,7 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
         let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)).sum();
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
-            if a.hfoldintervalrestrictedsumset((0,s), n).size() == expected {
+            if a.hfoldintervalrestrictedsumset((0, s), n).size() == expected {
                 info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
@@ -106,7 +106,7 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
@@ -124,7 +124,7 @@ pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
@@ -132,7 +132,7 @@ pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
         let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)*(2u32).pow(h)).sum();
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
-            if a.hfoldintervalrestrictedsumset((0,s), n).size() == expected {
+            if a.hfoldintervalrestrictedsumset((0, s), n).size() == expected {
                 info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
@@ -142,7 +142,7 @@ pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 #[cfg(test)]

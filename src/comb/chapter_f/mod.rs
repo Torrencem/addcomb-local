@@ -15,16 +15,16 @@ pub fn tau(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
-pub fn tau_interval(n: u32, s: u32) -> u32 {
+pub fn tau_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..n).rev() {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
-            if !a.hfoldintervalsumset((1,s), n).access(0) {
+            if !a.hfoldintervalsumset(intv, n).access(0) {
                 info!("[tau] Found {}, which gives a zero-free sumset", a);
-                info!("[tau] (gives:) {}", a.hfoldintervalsumset((1,s), n));
+                info!("[tau] (gives:) {}", a.hfoldintervalsumset(intv, n));
                 found = true;
                 break;
             }
@@ -33,7 +33,7 @@ pub fn tau_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn tau_restricted(n: u32, h: u32) -> u32 {
@@ -71,16 +71,16 @@ pub fn tau_restricted(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
-pub fn tau_restricted_interval(n: u32, s: u32) -> u32 {
+pub fn tau_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..n).rev() {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
-            if !a.hfoldintervalrestrictedsumset((1,s), n).access(0) {
+            if !a.hfoldintervalrestrictedsumset(intv, n).access(0) {
                 info!("[tau] Found {}, which gives a zero-free sumset", a);
-                info!("[tau] (gives:) {}", a.hfoldintervalrestrictedsumset((1,s), n));
+                info!("[tau] (gives:) {}", a.hfoldintervalrestrictedsumset(intv, n));
                 found = true;
                 break;
             }
@@ -89,7 +89,7 @@ pub fn tau_restricted_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn tau_signed(n: u32, h: u32) -> u32 {
@@ -107,16 +107,16 @@ pub fn tau_signed(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
-pub fn tau_signed_interval(n: u32, s: u32) -> u32 {
+pub fn tau_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..n).rev() {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
-            if !a.hfoldintervalsignedsumset((1,s), n).access(0) {
+            if !a.hfoldintervalsignedsumset(intv, n).access(0) {
                 info!("[tau] Found {}, which gives a zero-free sumset", a);
-                info!("[tau] (gives:) {}", a.hfoldintervalsignedsumset((1,s), n));
+                info!("[tau] (gives:) {}", a.hfoldintervalsignedsumset(intv, n));
                 found = true;
                 break;
             }
@@ -125,7 +125,7 @@ pub fn tau_signed_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 pub fn tau_signed_restricted(n: u32, h: u32) -> u32 {
@@ -143,16 +143,16 @@ pub fn tau_signed_restricted(n: u32, h: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
-pub fn tau_signed_restricted_interval(n: u32, s: u32) -> u32 {
+pub fn tau_signed_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..n).rev() {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
-            if !a.hfoldintervalrestrictedsignedsumset((1,s), n).access(0) {
+            if !a.hfoldintervalrestrictedsignedsumset(intv, n).access(0) {
                 info!("[tau] Found {}, which gives a zero-free sumset", a);
-                info!("[tau] (gives:) {}", a.hfoldintervalrestrictedsignedsumset((1,s), n));
+                info!("[tau] (gives:) {}", a.hfoldintervalrestrictedsignedsumset(intv, n));
                 found = true;
                 break;
             }
@@ -161,7 +161,7 @@ pub fn tau_signed_restricted_interval(n: u32, s: u32) -> u32 {
             return m;
         }
     }
-    panic!();
+    unreachable!();
 }
 
 #[cfg(test)]
@@ -171,6 +171,7 @@ mod tests {
     // Page 297
     #[test]
     fn test_tau_restricted() {
+        // TODO: Fix this test
         println!("{}", tau_restricted(2, 3));
         // let correct_table: Vec<u32> = vec![1, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 6, 6, 7, 8, 8, 8, 9];
         // let actual_table: Vec<u32> = (1..=18).map(|n| {

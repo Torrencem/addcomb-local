@@ -26,24 +26,24 @@ pub fn nu_exceptions(n: u32) -> u32 {
             let expected = cmp::min(n, choose(m + h - 1, *h));
             nu(n, *m, *h) != expected
         })
-        //.inspect(|(h, m)| println!("Exception: h={}, m={}", h, m))
+        .inspect(|(h, m)| info!("Exception: h={}, m={}", h, m))
         .count();
 
     excepts_number as u32
 }
 
-pub fn nu_interval(n: u32, m: u32, s: u32) -> u32 {
+pub fn nu_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalsumset((0, s), n).size();
+        let size = a.hfoldintervalsumset(intv, n).size();
         if size > curr_greatest {
             curr_greatest = size;
             greatest_set = a;
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsumset((0, s), n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsumset(intv, n));
     curr_greatest
 }
 
@@ -68,18 +68,18 @@ pub fn nu_signed_exception(n: u32, m: u32, h: u32) -> bool {
     nu_signed(n, m, h) != expected
 }
 
-pub fn nu_signed_interval(n: u32, m: u32, s: u32) -> u32 {
+pub fn nu_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalsignedsumset((0, s), n).size();
+        let size = a.hfoldintervalsignedsumset(intv, n).size();
         if size > curr_greatest {
             curr_greatest = size;
             greatest_set = a;
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsignedsumset((0, s), n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsignedsumset(intv, n));
     curr_greatest
 }
 
@@ -108,24 +108,24 @@ pub fn nu_restricted_exceptions(n: u32) -> u32 {
             let expected = cmp::min(n, choose(*m, *h));
             nu_restricted(n, *m, *h) != expected
         })
-        // .inspect(|(h, m)| println!("Exception: h={}, m={}", h, m))
+        .inspect(|(h, m)| info!("Exception: h={}, m={}", h, m))
         .count();
 
     excepts_number as u32
 }
 
-pub fn nu_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
+pub fn nu_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalrestrictedsumset((0, s), n).size();
+        let size = a.hfoldintervalrestrictedsumset(intv, n).size();
         if size > curr_greatest {
             curr_greatest = size;
             greatest_set = a;
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsumset((0, s), n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsumset(intv, n));
     curr_greatest
 }
 
@@ -160,18 +160,18 @@ pub fn nu_signed_restricted_exceptions(n: u32) -> u32 {
     excepts_number as u32
 }
 
-pub fn nu_signed_restricted_interval(n: u32, m: u32, s: u32) -> u32 {
+pub fn nu_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalrestrictedsignedsumset((0, s), n).size();
+        let size = a.hfoldintervalrestrictedsignedsumset(intv, n).size();
         if size > curr_greatest {
             curr_greatest = size;
             greatest_set = a;
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsignedsumset((0, s), n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsignedsumset(intv, n));
     curr_greatest
 }
 
@@ -194,7 +194,7 @@ mod tests {
         for n in [6, 10, 17].iter() {
             for m in 3..5 {
                 for s in 1..3 {
-                    assert!(nu_interval(*n, m, s) == nu(*n, m + 1, s));
+                    assert!(nu_interval(*n, m, (0, s)) == nu(*n, m + 1, s));
                 }
             }
         }
