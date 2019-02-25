@@ -367,16 +367,16 @@ fn main() {
             },
             "chi" => match interval {
                 false => {
-                    let ref args = THREE_ARG_REG.captures(argchoice)
-                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "chi", THREE_ARG_ERR)));
+                    let ref args = TWO_ARG_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "chi", TWO_ARG_ERR)));
                     (from_capt(args, 1),
                      from_capt(args, 2),
                      from_capt(args, 3),
                      from_capt(args, 4))
                 },
                 true => {
-                    let ref args = THREE_ARG_INTV_REG.captures(argchoice)
-                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "chi interval", THREE_ARG_INTV_ERR)));
+                    let ref args = TWO_ARG_INTV_REG.captures(argchoice)
+                        .unwrap_or_else(|| graceful_exit(format!("{}{}", "chi interval", TWO_ARG_INTV_ERR)));
                     (from_capt(args, 1),
                      from_capt(args, 2),
                      from_capt(args, 3),
