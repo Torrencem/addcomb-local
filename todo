@@ -10,6 +10,8 @@ make mu go from n to 1 instead of 1 to n
 
 check the 2.. in chapter_c
 
+should sigma (chapter_c) return 0 at the end? or something else
+
 in general, check looking upwards vs downwards where applicable
 
 check special cases of tau^ with Theorem F.88 are implemented correctly
