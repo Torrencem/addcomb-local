@@ -6,7 +6,7 @@ make nu_exceptions visible from the CLI
 
 make a and s (and maybe choose) visible from the CLI
 
-remove excess "as u32"'s
+make mu go from n to 1 instead of 1 to n
 
 check the 2.. in chapter_c
 
@@ -16,12 +16,13 @@ check special cases of tau^ with Theorem F.88 are implemented correctly
 
 check n = 1 case for all of tau
 
-check ALL taus might need to be (1..=n)? But it throws an exception for some reason
-
 add the N version of the functions where it's possible (such as chapter_f)
 
-change panic to literally anything else (graceful exit)
+Break early on phi when you find a spanning set
+
+Replace arxiv page numbers with actual page numbers
 
 low priority:
 documentation
 consistent internal argument orders
+add --parallel option for value ranges

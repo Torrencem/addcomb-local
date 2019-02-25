@@ -17,7 +17,7 @@ pub fn phi_interval(n: u32, intv: (u32, u32)) -> u32 {
     }
 
     for m in lower_bound.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldintervalsumset(intv, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;
@@ -32,7 +32,7 @@ pub fn phi_interval(n: u32, intv: (u32, u32)) -> u32 {
 
 pub fn phi_signed(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldsignedsumset(h, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;
@@ -44,7 +44,7 @@ pub fn phi_signed(n: u32, h: u32) -> u32 {
 
 pub fn phi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1u32.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldintervalsignedsumset(intv, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;
@@ -57,7 +57,7 @@ pub fn phi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
 // Not a very researched function... (page 145)
 pub fn phi_restricted(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldrestrictedsumset(h, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;
@@ -75,7 +75,7 @@ pub fn phi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
         info!("[phi] (Proposition B.73) Using lower bound: {}", lower_bound);
     }
     for m in lower_bound.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldintervalrestrictedsumset(intv, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;
@@ -87,7 +87,7 @@ pub fn phi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
 
 pub fn phi_signed_restricted(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldrestrictedsignedsumset(h, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;
@@ -99,7 +99,7 @@ pub fn phi_signed_restricted(n: u32, h: u32) -> u32 {
 
 pub fn phi_signed_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1u32.. {
-        for a in each_set_exact(n as u32, m) {
+        for a in each_set_exact(n, m) {
             if a.hfoldintervalrestrictedsignedsumset(intv, n).isfull(n) {
                 info!("[phi] Found spanning set: {}", a);
                 return m;

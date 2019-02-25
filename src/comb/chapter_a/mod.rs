@@ -9,6 +9,10 @@ pub fn nu(n: u32, m: u32, h: u32) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldsumset(h, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -38,6 +42,10 @@ pub fn nu_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalsumset(intv, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -53,6 +61,10 @@ pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldsignedsumset(h, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -74,6 +86,10 @@ pub fn nu_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalsignedsumset(intv, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -89,6 +105,10 @@ pub fn nu_restricted(n: u32, m: u32, h: u32) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldrestrictedsumset(h, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -120,6 +140,10 @@ pub fn nu_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalrestrictedsumset(intv, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -135,6 +159,10 @@ pub fn nu_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldrestrictedsignedsumset(h, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }
@@ -166,6 +194,10 @@ pub fn nu_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     for a in each_set_exact(n, m) {
         let size = a.hfoldintervalrestrictedsignedsumset(intv, n).size();
         if size > curr_greatest {
+            if size == n {
+                info!("[nu] Found spanning set: {}", a);
+                return n;
+            }
             curr_greatest = size;
             greatest_set = a;
         }

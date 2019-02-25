@@ -5,8 +5,8 @@ pub fn sigma(n: u32, h: u32) -> u32 {
     for m in (2..n).rev() {
         let expected = choose(m + h - 1, h);
         let mut found = false;
-        for a in each_set_exact_zero(n as u32, m as u32) {
-            if a.hfoldsumset(h as u32, n).size() == expected as u32 {
+        for a in each_set_exact_zero(n, m) {
+            if a.hfoldsumset(h, n).size() == expected {
                 info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;
@@ -42,7 +42,7 @@ pub fn sigma_signed(n: u32, h: u32) -> u32 {
         let expected = c(h, m);
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
-            if a.hfoldsignedsumset(h as u32, n).size() == expected as u32 {
+            if a.hfoldsignedsumset(h, n).size() == expected {
                 info!("[sigma] for m={}, found a={}", m, a);
                 found = true;
                 break;

@@ -44,6 +44,9 @@ pub fn mu_signed(n: u32, k: u32, l: u32) -> u32 {
 }
 
 pub fn mu_restricted(n: u32, k: u32, l: u32) -> u32 {
+    if k > n || l > n {
+        return n;
+    }
     let mut lower_bound = 1;
     if l == 1 && (n == k*(k*k - 1)) {
         lower_bound = cmp::max(n/(k + 1) + k - 1, k*k);
@@ -70,6 +73,9 @@ pub fn mu_restricted(n: u32, k: u32, l: u32) -> u32 {
 }
 
 pub fn mu_signed_restricted(n: u32, k: u32, l: u32) -> u32 {
+    if k > n || l > n {
+        return n;
+    }
     for m in 1..n {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
@@ -92,13 +98,18 @@ pub fn mu_signed_restricted(n: u32, k: u32, l: u32) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    // use super::*;
+    use super::*;
 
+    // Based on page 358, 359
     #[test]
     fn test_mu_res() {
-        // TODO: Fix this test
-        // for n in 5..=30 {
-        //     println!("{}: {}", n, mu_restricted(n, 3, 1));
-        // }
+        assert_eq!(mu_restricted(9, 3, 1), 4);
+        assert_eq!(mu_restricted(14, 3, 1), 5);
+        assert_eq!(mu_restricted(19, 3, 1), 6);
+        assert_eq!(mu_restricted(15, 4, 2), 5);
+        assert_eq!(mu_restricted(12, 4, 3), 6);
+
+        assert_eq!(mu_restricted(6, 8, 1), 6);
+        assert_eq!(mu_restricted(11, 6, 1), 6);
     }
 }
