@@ -265,4 +265,24 @@ mod tests {
             println!("{}", a);
         }
     }
+
+    // #[test]
+    // fn count_h() {
+    //     let n = 36;
+    //     let m = 9;
+
+    //     let mut spanning = 0;
+
+    //     // Proposition B.73
+    //     let lower_bound = ((((8*n - 7) as f32).sqrt() - 1.0)/2.0).ceil() as u32;
+    //     info!("[phi] (Proposition B.73) Using lower bound: {}", lower_bound);
+    //     for a in each_set_exact(n, m) {
+    //         if a.hfoldintervalrestrictedsumset((0, 2), n).isfull(n) {
+    //             println!("{}", a);
+    //             spanning += 1;
+    //         }
+    //     }
+
+    //     println!("total: {}", spanning);
+    // }
 }
