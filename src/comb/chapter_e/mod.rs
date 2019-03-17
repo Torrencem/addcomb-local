@@ -1,5 +1,12 @@
 use fastset::*;
 
+// Temporary
+macro_rules! info {
+    ($( $x:expr ),*) => {
+        
+    };
+}
+
 pub fn chi(n: u32, h: u32) -> u32 {
     for m in 1.. {
         let mut found = false;

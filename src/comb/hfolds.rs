@@ -1,8 +1,6 @@
 
 use fastset::*;
 
-
-
 #[inline]
 fn bit_scan_low(val: u64) -> u32 {
     return val.trailing_zeros() as u32;
@@ -15,20 +13,6 @@ fn in_interval(val: u32, interval: (u32, u32)) -> bool {
 }
 
 impl FastSet {
-    #[inline]
-    pub fn simplesumset(&self, other: &FastSet, n: u32) -> FastSet {
-        let mut res = 0u64;
-        let mut c1 = self.contents;
-        while c1 != 0 {
-            let shift = bit_scan_low(c1);
-            let cycled = cycle(other.contents, shift, n);
-            res |= cycled;
-
-            c1 &= c1 - 1; // Bit magic
-        }
-        FastSet {contents: res}
-    }
-
     #[inline]
     pub fn hfoldsumset(&self, h: u32, n: u32) -> FastSet {
         if h == 0 {

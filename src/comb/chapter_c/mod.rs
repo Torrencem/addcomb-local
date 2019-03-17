@@ -1,6 +1,13 @@
 use fastset::*;
 use comb::*;
 
+// Temporary
+macro_rules! info {
+    ($( $x:expr ),*) => {
+        
+    };
+}
+
 pub fn sigma(n: u32, h: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = choose(m + h - 1, h);

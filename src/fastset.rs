@@ -94,7 +94,6 @@ impl FastSet {
     }
 }
 
-
 pub struct EachSet {
     state: u64,
     cap: u64,
@@ -261,7 +260,7 @@ mod tests {
 
     #[test]
     fn test_each_exact() {
-        for a in each_set_exact(14, 4) {
+        for a in each_set_exact(14, 1) {
             println!("{}", a);
         }
     }

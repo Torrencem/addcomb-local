@@ -1,6 +1,13 @@
 use std::cmp;
 use fastset::*;
 
+// Temporary
+macro_rules! info {
+    ($( $x:expr ),*) => {
+        
+    };
+}
+
 pub fn mu(n: u32, k: u32, l: u32) -> u32 {
     for m in 1..n {
         let mut found = false;

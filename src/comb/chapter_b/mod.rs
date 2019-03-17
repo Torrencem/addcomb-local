@@ -2,6 +2,13 @@ use std::cmp;
 use fastset::*;
 use comb::*;
 
+// Temporary
+macro_rules! info {
+    ($( $x:expr ),*) => {
+        
+    };
+}
+
 pub fn phi(n: u32, h: u32) -> u32 {
     phi_interval(n, (0, h)) + 1
 }

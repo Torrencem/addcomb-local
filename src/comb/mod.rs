@@ -77,7 +77,7 @@ mod tests {
     use super::*;
 
     // Compare with the 2.4 tables
-    // (page 27)
+    // (page 27) TODO
     #[test]
     pub fn test_c_a() {
         println!("a(j,k): \n");
@@ -95,5 +95,30 @@ mod tests {
             }
             println!("");
         }
+    }
+
+    use super::chapter_a::*;
+
+    #[test]
+    fn test_dylans_thing() {
+        for m in &[2u32, 3, 4] {
+            print!("\n\n\nm = {}\n\n", m);
+            print!("  h =| ");
+            for h in 2..=30 {
+                print!("{:02} ", h);
+            }
+            print!("\n");
+            print!("-----|");
+            for _ in 2..=30 {
+                print!("---");
+            }
+            for n in *m..=30 {
+                print!("\nn={:02} | ", n);
+                for h in 2..=30 {
+                    print!("{:02} ", nu(n, *m, h));
+                }
+            }
+        }
+        print!("\n");
     }
 }

@@ -1,5 +1,12 @@
 use fastset::*;
 
+// Temporary
+macro_rules! info {
+    ($( $x:expr ),*) => {
+        
+    };
+}
+
 pub fn rho(n: u32, m: u32, h: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;

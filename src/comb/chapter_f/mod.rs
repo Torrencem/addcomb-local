@@ -1,5 +1,12 @@
 use fastset::*;
 
+// Temporary
+macro_rules! info {
+    ($( $x:expr ),*) => {
+        
+    };
+}
+
 pub fn tau(n: u32, h: u32) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
