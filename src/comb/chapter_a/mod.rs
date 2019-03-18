@@ -8,6 +8,7 @@ macro_rules! info {
 
 use fastset::*;
 
+#[no_mangle]
 pub fn nu(n: u32, m: u32, h: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
@@ -27,6 +28,7 @@ pub fn nu(n: u32, m: u32, h: u32) -> u32 {
     curr_greatest
 }
 
+#[no_mangle]
 pub fn nu_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
@@ -46,6 +48,7 @@ pub fn nu_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     curr_greatest
 }
 
+#[no_mangle]
 pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
@@ -65,6 +68,7 @@ pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
     curr_greatest
 }
 
+#[no_mangle]
 pub fn nu_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
@@ -84,6 +88,7 @@ pub fn nu_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     curr_greatest
 }
 
+#[no_mangle]
 pub fn nu_restricted(n: u32, m: u32, h: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
@@ -103,6 +108,7 @@ pub fn nu_restricted(n: u32, m: u32, h: u32) -> u32 {
     curr_greatest
 }
 
+#[no_mangle]
 pub fn nu_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
@@ -142,6 +148,7 @@ pub fn nu_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
     curr_greatest
 }
 
+#[no_mangle]
 pub fn nu_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;

@@ -7,6 +7,7 @@ macro_rules! info {
     };
 }
 
+#[no_mangle]
 pub fn rho(n: u32, m: u32, h: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -22,6 +23,7 @@ pub fn rho(n: u32, m: u32, h: u32) -> u32 {
     curr_smallest
 }
 
+#[no_mangle]
 pub fn rho_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -37,6 +39,7 @@ pub fn rho_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     curr_smallest
 }
 
+#[no_mangle]
 pub fn rho_signed(n: u32, m: u32, h: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -53,6 +56,7 @@ pub fn rho_signed(n: u32, m: u32, h: u32) -> u32 {
 }
 
 
+#[no_mangle]
 pub fn rho_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -68,6 +72,7 @@ pub fn rho_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     curr_smallest
 }
 
+#[no_mangle]
 pub fn rho_restricted(n: u32, m: u32, h: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -83,6 +88,7 @@ pub fn rho_restricted(n: u32, m: u32, h: u32) -> u32 {
     curr_smallest
 }
 
+#[no_mangle]
 pub fn rho_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -98,6 +104,7 @@ pub fn rho_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     curr_smallest
 }
 
+#[no_mangle]
 pub fn rho_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
@@ -113,6 +120,7 @@ pub fn rho_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
     curr_smallest
 }
 
+#[no_mangle]
 pub fn rho_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;

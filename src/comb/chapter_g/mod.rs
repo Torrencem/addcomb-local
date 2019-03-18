@@ -8,6 +8,7 @@ macro_rules! info {
     };
 }
 
+#[no_mangle]
 pub fn mu(n: u32, k: u32, l: u32) -> u32 {
     for m in 1..n {
         let mut found = false;
@@ -29,6 +30,7 @@ pub fn mu(n: u32, k: u32, l: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn mu_signed(n: u32, k: u32, l: u32) -> u32 {
     for m in 1..n {
         let mut found = false;
@@ -50,6 +52,7 @@ pub fn mu_signed(n: u32, k: u32, l: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn mu_restricted(n: u32, k: u32, l: u32) -> u32 {
     if k > n || l > n {
         return n;
@@ -79,6 +82,7 @@ pub fn mu_restricted(n: u32, k: u32, l: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn mu_signed_restricted(n: u32, k: u32, l: u32) -> u32 {
     if k > n || l > n {
         return n;

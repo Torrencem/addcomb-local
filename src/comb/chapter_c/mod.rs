@@ -8,6 +8,7 @@ macro_rules! info {
     };
 }
 
+#[no_mangle]
 pub fn sigma(n: u32, h: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = choose(m + h - 1, h);
@@ -27,6 +28,7 @@ pub fn sigma(n: u32, h: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_interval(n: u32, s: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = choose(m + s, s);
@@ -46,6 +48,7 @@ pub fn sigma_interval(n: u32, s: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_signed(n: u32, h: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = c(h, m);
@@ -65,6 +68,7 @@ pub fn sigma_signed(n: u32, h: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = a(m, s);
@@ -84,6 +88,7 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_restricted(n: u32, h: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = choose(m, h);
@@ -103,6 +108,7 @@ pub fn sigma_restricted(n: u32, h: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)).sum();
@@ -122,6 +128,7 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = choose(m, h)*(2u32).pow(h);
@@ -141,6 +148,7 @@ pub fn sigma_signed_restricted(n: u32, h: u32) -> u32 {
     return 0;
 }
 
+#[no_mangle]
 pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> u32 {
     for m in (1..n).rev() {
         let expected = (0..=cmp::min(s, m)).map(|h| choose(m, h)*(2u32).pow(h)).sum();

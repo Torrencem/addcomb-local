@@ -7,6 +7,7 @@ macro_rules! info {
     };
 }
 
+#[no_mangle]
 pub fn chi(n: u32, h: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -25,6 +26,7 @@ pub fn chi(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -43,6 +45,7 @@ pub fn chi_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_signed(n: u32, h: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -61,6 +64,7 @@ pub fn chi_signed(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -79,6 +83,7 @@ pub fn chi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_restricted(n: u32, h: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -97,6 +102,7 @@ pub fn chi_restricted(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -115,6 +121,7 @@ pub fn chi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_signed_restricted(n: u32, h: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
@@ -133,6 +140,7 @@ pub fn chi_signed_restricted(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn chi_signed_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1.. {
         let mut found = false;

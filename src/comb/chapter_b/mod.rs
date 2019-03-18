@@ -9,11 +9,12 @@ macro_rules! info {
     };
 }
 
+#[no_mangle]
 pub fn phi(n: u32, h: u32) -> u32 {
     phi_interval(n, (0, h)) + 1
 }
 
-#[inline]
+#[no_mangle]
 pub fn phi_interval(n: u32, intv: (u32, u32)) -> u32 {
     let mut lower_bound = 1;
     // Proposition B.10
@@ -37,6 +38,7 @@ pub fn phi_interval(n: u32, intv: (u32, u32)) -> u32 {
 // TODO: Maybe impliment f and g functions on page 132
 //(need an upper bound on n though, maybe read paper?)
 
+#[no_mangle]
 pub fn phi_signed(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
@@ -49,6 +51,7 @@ pub fn phi_signed(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn phi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1u32.. {
         for a in each_set_exact(n, m) {
@@ -62,6 +65,7 @@ pub fn phi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
 }
 
 // Not a very researched function... (page 145)
+#[no_mangle]
 pub fn phi_restricted(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
@@ -74,6 +78,7 @@ pub fn phi_restricted(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn phi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     let mut lower_bound = 1u32;
     // Proposition B.73
@@ -92,6 +97,7 @@ pub fn phi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn phi_signed_restricted(n: u32, h: u32) -> u32 {
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
@@ -104,6 +110,7 @@ pub fn phi_signed_restricted(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn phi_signed_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in 1u32.. {
         for a in each_set_exact(n, m) {

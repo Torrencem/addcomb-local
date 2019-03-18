@@ -7,6 +7,7 @@ macro_rules! info {
     };
 }
 
+#[no_mangle]
 pub fn tau(n: u32, h: u32) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
@@ -25,6 +26,7 @@ pub fn tau(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
@@ -43,6 +45,7 @@ pub fn tau_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_restricted(n: u32, h: u32) -> u32 {
     // Theorem F.88
     if n >= 12 && n % 2 == 0 && (3 <= h) && (h <= n - 1) && (h % 2 == 1) {
@@ -81,6 +84,7 @@ pub fn tau_restricted(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
@@ -99,6 +103,7 @@ pub fn tau_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_signed(n: u32, h: u32) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
@@ -117,6 +122,7 @@ pub fn tau_signed(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..n).rev() {
         let mut found = false;
@@ -135,6 +141,7 @@ pub fn tau_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_signed_restricted(n: u32, h: u32) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
@@ -153,6 +160,7 @@ pub fn tau_signed_restricted(n: u32, h: u32) -> u32 {
     unreachable!();
 }
 
+#[no_mangle]
 pub fn tau_signed_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
     for m in (1..=n).rev() {
         let mut found = false;
