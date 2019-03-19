@@ -24,18 +24,18 @@ pub fn rho(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn rho_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn rho_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalsumset(intv, n).size();
+        let size = a.hfoldintervalsumset((ia, ib), n).size();
         if size < curr_smallest {
             curr_smallest = size;
             smallest_set = a;
         }
     }
     info!("[rho] Set with smallest sumset: {}", smallest_set);
-    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalsumset(intv, n));
+    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalsumset((ia, ib), n));
     curr_smallest
 }
 
@@ -57,18 +57,18 @@ pub fn rho_signed(n: u32, m: u32, h: u32) -> u32 {
 
 
 #[no_mangle]
-pub fn rho_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn rho_signed_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalsignedsumset(intv, n).size();
+        let size = a.hfoldintervalsignedsumset((ia, ib), n).size();
         if size < curr_smallest {
             curr_smallest = size;
             smallest_set = a;
         }
     }
     info!("[rho] Set with smallest sumset: {}", smallest_set);
-    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalsignedsumset(intv, n));
+    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalsignedsumset((ia, ib), n));
     curr_smallest
 }
 
@@ -89,18 +89,18 @@ pub fn rho_restricted(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn rho_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn rho_restricted_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalrestrictedsumset(intv, n).size();
+        let size = a.hfoldintervalrestrictedsumset((ia, ib), n).size();
         if size < curr_smallest {
             curr_smallest = size;
             smallest_set = a;
         }
     }
     info!("[rho] Set with smallest sumset: {}", smallest_set);
-    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalrestrictedsumset(intv, n));
+    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalrestrictedsumset((ia, ib), n));
     curr_smallest
 }
 
@@ -121,17 +121,17 @@ pub fn rho_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn rho_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn rho_signed_restricted_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut smallest_set = empty_set();
     let mut curr_smallest = n;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalrestrictedsignedsumset(intv, n).size();
+        let size = a.hfoldintervalrestrictedsignedsumset((ia, ib), n).size();
         if size < curr_smallest {
             curr_smallest = size;
             smallest_set = a;
         }
     }
     info!("[rho] Set with smallest sumset: {}", smallest_set);
-    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalrestrictedsignedsumset(intv, n));
+    info!("[rho] (sumsets to:) {}", smallest_set.hfoldintervalrestrictedsignedsumset((ia, ib), n));
     curr_smallest
 }

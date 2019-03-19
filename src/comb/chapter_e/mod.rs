@@ -27,13 +27,13 @@ pub fn chi(n: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn chi_interval(n: u32, intv: (u32, u32)) -> u32 {
+pub fn chi_interval(n: u32, ia: u32, ib: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
         for a in each_set_exact(n, m) {
-            if !a.hfoldintervalsumset(intv, n).isfull(n) {
+            if !a.hfoldintervalsumset((ia, ib), n).isfull(n) {
                 info!("[chi] For m={}, found {}, which doesn't give a full sumset", m, a);
-                info!("[chi] (gives:) {}", a.hfoldintervalsumset(intv, n));
+                info!("[chi] (gives:) {}", a.hfoldintervalsumset((ia, ib), n));
                 found = true;
                 break;
             }
@@ -65,13 +65,13 @@ pub fn chi_signed(n: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn chi_signed_interval(n: u32, intv: (u32, u32)) -> u32 {
+pub fn chi_signed_interval(n: u32, ia: u32, ib: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
         for a in each_set_exact(n, m) {
-            if !a.hfoldintervalsignedsumset(intv, n).isfull(n) {
+            if !a.hfoldintervalsignedsumset((ia, ib), n).isfull(n) {
                 info!("[chi] For m={}, found {}, which doesn't give a full sumset", m, a);
-                info!("[chi] (gives:) {}", a.hfoldintervalsignedsumset(intv, n));
+                info!("[chi] (gives:) {}", a.hfoldintervalsignedsumset((ia, ib), n));
                 found = true;
                 break;
             }
@@ -103,13 +103,13 @@ pub fn chi_restricted(n: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn chi_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
+pub fn chi_restricted_interval(n: u32, ia: u32, ib: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
         for a in each_set_exact(n, m) {
-            if !a.hfoldintervalrestrictedsumset(intv, n).isfull(n) {
+            if !a.hfoldintervalrestrictedsumset((ia, ib), n).isfull(n) {
                 info!("[chi] For m={}, found {}, which doesn't give a full sumset", m, a);
-                info!("[chi] (gives:) {}", a.hfoldintervalrestrictedsumset(intv, n));
+                info!("[chi] (gives:) {}", a.hfoldintervalrestrictedsumset((ia, ib), n));
                 found = true;
                 break;
             }
@@ -141,13 +141,13 @@ pub fn chi_signed_restricted(n: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn chi_signed_restricted_interval(n: u32, intv: (u32, u32)) -> u32 {
+pub fn chi_signed_restricted_interval(n: u32, ia: u32, ib: u32) -> u32 {
     for m in 1.. {
         let mut found = false;
         for a in each_set_exact(n, m) {
-            if !a.hfoldintervalrestrictedsignedsumset(intv, n).isfull(n) {
+            if !a.hfoldintervalrestrictedsignedsumset((ia, ib), n).isfull(n) {
                 info!("[chi] For m={}, found {}, which doesn't give a full sumset", m, a);
-                info!("[chi] (gives:) {}", a.hfoldintervalrestrictedsignedsumset(intv, n));
+                info!("[chi] (gives:) {}", a.hfoldintervalrestrictedsignedsumset((ia, ib), n));
                 found = true;
                 break;
             }

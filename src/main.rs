@@ -11,6 +11,8 @@ use comb::chapter_g::*;
 // #[macro_use] extern crate itertools;
 #[macro_use] extern crate lazy_static;
 
+mod wasm_result;
+
 fn main() {
 
 }

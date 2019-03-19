@@ -29,11 +29,11 @@ pub fn nu(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn nu_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn nu_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalsumset(intv, n).size();
+        let size = a.hfoldintervalsumset((ia, ib), n).size();
         if size > curr_greatest {
             if size == n {
                 info!("[nu] Found spanning set: {}", a);
@@ -44,7 +44,7 @@ pub fn nu_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsumset(intv, n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsumset((ia, ib), n));
     curr_greatest
 }
 
@@ -69,11 +69,11 @@ pub fn nu_signed(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn nu_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn nu_signed_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalsignedsumset(intv, n).size();
+        let size = a.hfoldintervalsignedsumset((ia, ib), n).size();
         if size > curr_greatest {
             if size == n {
                 info!("[nu] Found spanning set: {}", a);
@@ -84,7 +84,7 @@ pub fn nu_signed_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsignedsumset(intv, n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalsignedsumset((ia, ib), n));
     curr_greatest
 }
 
@@ -109,11 +109,11 @@ pub fn nu_restricted(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn nu_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn nu_restricted_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalrestrictedsumset(intv, n).size();
+        let size = a.hfoldintervalrestrictedsumset((ia, ib), n).size();
         if size > curr_greatest {
             if size == n {
                 info!("[nu] Found spanning set: {}", a);
@@ -124,7 +124,7 @@ pub fn nu_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsumset(intv, n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsumset((ia, ib), n));
     curr_greatest
 }
 
@@ -149,11 +149,11 @@ pub fn nu_signed_restricted(n: u32, m: u32, h: u32) -> u32 {
 }
 
 #[no_mangle]
-pub fn nu_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
+pub fn nu_signed_restricted_interval(n: u32, m: u32, ia: u32, ib: u32) -> u32 {
     let mut greatest_set = empty_set();
     let mut curr_greatest = 0;
     for a in each_set_exact(n, m) {
-        let size = a.hfoldintervalrestrictedsignedsumset(intv, n).size();
+        let size = a.hfoldintervalrestrictedsignedsumset((ia, ib), n).size();
         if size > curr_greatest {
             if size == n {
                 info!("[nu] Found spanning set: {}", a);
@@ -164,7 +164,7 @@ pub fn nu_signed_restricted_interval(n: u32, m: u32, intv: (u32, u32)) -> u32 {
         }
     }
     info!("[nu] Set with greatest sumset: {}", greatest_set);
-    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsignedsumset(intv, n));
+    info!("[nu] (sumsets to:) {}", greatest_set.hfoldintervalrestrictedsignedsumset((ia, ib), n));
     curr_greatest
 }
 
@@ -178,7 +178,7 @@ mod tests {
         for n in [6, 10, 17].iter() {
             for m in 3..5 {
                 for s in 1..3 {
-                    assert!(nu_interval(*n, m, (0, s)) == nu(*n, m + 1, s));
+                    assert!(nu_interval(*n, m, 0, s) == nu(*n, m + 1, s));
                 }
             }
         }

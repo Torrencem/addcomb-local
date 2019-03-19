@@ -1,1 +1,2 @@
+# Make sure to source emsdk first
 cargo build --target "wasm32-unknown-emscripten"
