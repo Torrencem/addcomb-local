@@ -14,8 +14,8 @@ pub fn tau(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
             if !a.hfoldsumset(h, n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldsumset(h, n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldsumset(h, n));
                 found = true;
                 break;
             }
@@ -34,8 +34,8 @@ pub fn tau_interval(n: u32, ia: u32, ib: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
             if !a.hfoldintervalsumset((ia, ib), n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldintervalsumset((ia, ib), n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldintervalsumset((ia, ib), n));
                 found = true;
                 break;
             }
@@ -74,8 +74,8 @@ pub fn tau_restricted(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact(n, m) {
             if !a.hfoldrestrictedsumset(h, n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldrestrictedsumset(h, n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldrestrictedsumset(h, n));
                 found = true;
                 break;
             }
@@ -94,8 +94,8 @@ pub fn tau_restricted_interval(n: u32, ia: u32, ib: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact(n, m) {
             if !a.hfoldintervalrestrictedsumset((ia, ib), n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldintervalrestrictedsumset((ia, ib), n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldintervalrestrictedsumset((ia, ib), n));
                 found = true;
                 break;
             }
@@ -114,8 +114,8 @@ pub fn tau_signed(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
             if !a.hfoldsignedsumset(h, n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldsignedsumset(h, n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldsignedsumset(h, n));
                 found = true;
                 break;
             }
@@ -134,8 +134,8 @@ pub fn tau_signed_interval(n: u32, ia: u32, ib: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_no_zero(n, m) {
             if !a.hfoldintervalsignedsumset((ia, ib), n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldintervalsignedsumset((ia, ib), n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldintervalsignedsumset((ia, ib), n));
                 found = true;
                 break;
             }
@@ -154,8 +154,8 @@ pub fn tau_signed_restricted(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact(n, m) {
             if !a.hfoldrestrictedsignedsumset(h, n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldrestrictedsignedsumset(h, n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldrestrictedsignedsumset(h, n));
                 found = true;
                 break;
             }
@@ -174,8 +174,8 @@ pub fn tau_signed_restricted_interval(n: u32, ia: u32, ib: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact(n, m) {
             if !a.hfoldintervalrestrictedsignedsumset((ia, ib), n).access(0) {
-                info!(result, "[tau] Found {}, which gives a zero-free sumset", a);
-                info!(result, "[tau] (gives:) {}", a.hfoldintervalrestrictedsignedsumset((ia, ib), n));
+                info!(result, "Found {}, which gives a zero-free sumset", a);
+                info!(result, "(gives:) {}", a.hfoldintervalrestrictedsignedsumset((ia, ib), n));
                 found = true;
                 break;
             }

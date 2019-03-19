@@ -29,13 +29,13 @@ fn _phi_interval(n: u32, ia: u32, ib: u32) -> WasmResult {
     if (ia, ib).0 == 0 {
         let s = (ia, ib).1;
         lower_bound = cmp::max(1, (((factorial(s) * n) as f32).powf(1f32/(s as f32)).ceil() as i32) - (s as i32)) as u32;
-        info!(result, "[phi] (Proposition B.10) Using lower bound: {}", lower_bound);
+        info!(result, "(Proposition B.10) Using lower bound: {}", lower_bound);
     }
 
     for m in lower_bound.. {
         for a in each_set_exact(n, m) {
             if a.hfoldintervalsumset((ia, ib), n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 result.solve(m);
                 return result;
             }
@@ -53,7 +53,7 @@ pub fn phi_signed(n: u32, h: u32) -> RawCString {
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
             if a.hfoldsignedsumset(h, n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 return result.solve(m);
             }
         }
@@ -67,7 +67,7 @@ pub fn phi_signed_interval(n: u32, ia: u32, ib: u32) -> RawCString {
     for m in 1u32.. {
         for a in each_set_exact(n, m) {
             if a.hfoldintervalsignedsumset((ia, ib), n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 return result.solve(m);
             }
         }
@@ -82,7 +82,7 @@ pub fn phi_restricted(n: u32, h: u32) -> RawCString {
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
             if a.hfoldrestrictedsumset(h, n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 return result.solve(m);
             }
         }
@@ -97,12 +97,12 @@ pub fn phi_restricted_interval(n: u32, ia: u32, ib: u32) -> RawCString {
     // Proposition B.73
     if (ia, ib) == (0, 2) {
         lower_bound = ((((8*n - 7) as f32).sqrt() - 1.0)/2.0).ceil() as u32;
-        info!(result, "[phi] (Proposition B.73) Using lower bound: {}", lower_bound);
+        info!(result, "(Proposition B.73) Using lower bound: {}", lower_bound);
     }
     for m in lower_bound.. {
         for a in each_set_exact(n, m) {
             if a.hfoldintervalrestrictedsumset((ia, ib), n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 return result.solve(m);
             }
         }
@@ -116,7 +116,7 @@ pub fn phi_signed_restricted(n: u32, h: u32) -> RawCString {
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
             if a.hfoldrestrictedsignedsumset(h, n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 return result.solve(m);
             }
         }
@@ -130,7 +130,7 @@ pub fn phi_signed_restricted_interval(n: u32, ia: u32, ib: u32) -> RawCString {
     for m in 1u32.. {
         for a in each_set_exact(n, m) {
             if a.hfoldintervalrestrictedsignedsumset((ia, ib), n).isfull(n) {
-                info!(result, "[phi] Found spanning set: {}", a);
+                info!(result, "Found spanning set: {}", a);
                 return result.solve(m);
             }
         }

@@ -274,7 +274,7 @@ mod tests {
 
     //     // Proposition B.73
     //     let lower_bound = ((((8*n - 7) as f32).sqrt() - 1.0)/2.0).ceil() as u32;
-    //     info!("[phi] (Proposition B.73) Using lower bound: {}", lower_bound);
+    //     info!("(Proposition B.73) Using lower bound: {}", lower_bound);
     //     for a in each_set_exact(n, m) {
     //         if a.hfoldintervalrestrictedsumset((0, 2), n).isfull(n) {
     //             println!("{}", a);

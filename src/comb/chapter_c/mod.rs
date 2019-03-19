@@ -17,7 +17,7 @@ pub fn sigma(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldsumset(h, n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -26,7 +26,7 @@ pub fn sigma(n: u32, h: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -38,7 +38,7 @@ pub fn sigma_interval(n: u32, s: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalsumset((0, s), n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -47,7 +47,7 @@ pub fn sigma_interval(n: u32, s: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -59,7 +59,7 @@ pub fn sigma_signed(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldsignedsumset(h, n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -68,7 +68,7 @@ pub fn sigma_signed(n: u32, h: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -80,7 +80,7 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalsignedsumset((0, s), n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -89,7 +89,7 @@ pub fn sigma_signed_interval(n: u32, s: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -101,7 +101,7 @@ pub fn sigma_restricted(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldrestrictedsumset(h, n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -110,7 +110,7 @@ pub fn sigma_restricted(n: u32, h: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -122,7 +122,7 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalrestrictedsumset((0, s), n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -131,7 +131,7 @@ pub fn sigma_restricted_interval(n: u32, s: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -143,7 +143,7 @@ pub fn sigma_signed_restricted(n: u32, h: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldrestrictedsignedsumset(h, n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -152,7 +152,7 @@ pub fn sigma_signed_restricted(n: u32, h: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 
@@ -164,7 +164,7 @@ pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> RawCString {
         let mut found = false;
         for a in each_set_exact_zero(n, m) {
             if a.hfoldintervalrestrictedsumset((0, s), n).size() == expected {
-                info!(result, "[sigma] for m={}, found a={}", m, a);
+                info!(result, "for m={}, found a={}", m, a);
                 found = true;
                 break;
             }
@@ -173,7 +173,7 @@ pub fn sigma_signed_restricted_interval(n: u32, s: u32) -> RawCString {
             return result.solve(m);
         }
     }
-    info!(result, "[sigma] Found no sets of the required size");
+    info!(result, "Found no sets of the required size");
     return result.solve(0);
 }
 

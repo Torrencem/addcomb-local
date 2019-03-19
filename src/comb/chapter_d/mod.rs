@@ -20,8 +20,8 @@ pub fn rho(n: u32, m: u32, h: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldsumset(h, n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldsumset(h, n));
     result.solve(curr_smallest)
 }
 
@@ -37,8 +37,8 @@ pub fn rho_interval(n: u32, m: u32, ia: u32, ib: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldintervalsumset((ia, ib), n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldintervalsumset((ia, ib), n));
     result.solve(curr_smallest)
 }
 
@@ -54,8 +54,8 @@ pub fn rho_signed(n: u32, m: u32, h: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldsignedsumset(h, n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldsignedsumset(h, n));
     result.solve(curr_smallest)
 }
 
@@ -72,8 +72,8 @@ pub fn rho_signed_interval(n: u32, m: u32, ia: u32, ib: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldintervalsignedsumset((ia, ib), n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldintervalsignedsumset((ia, ib), n));
     result.solve(curr_smallest)
 }
 
@@ -89,8 +89,8 @@ pub fn rho_restricted(n: u32, m: u32, h: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldrestrictedsumset(h, n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldrestrictedsumset(h, n));
     result.solve(curr_smallest)
 }
 
@@ -106,8 +106,8 @@ pub fn rho_restricted_interval(n: u32, m: u32, ia: u32, ib: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldintervalrestrictedsumset((ia, ib), n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldintervalrestrictedsumset((ia, ib), n));
     result.solve(curr_smallest)
 }
 
@@ -123,8 +123,8 @@ pub fn rho_signed_restricted(n: u32, m: u32, h: u32) -> RawCString {
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldrestrictedsignedsumset(h, n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldrestrictedsignedsumset(h, n));
     result.solve(curr_smallest)
 }
 
@@ -140,7 +140,7 @@ pub fn rho_signed_restricted_interval(n: u32, m: u32, ia: u32, ib: u32) -> RawCS
             smallest_set = a;
         }
     }
-    info!(result, "[rho] Set with smallest sumset: {}", smallest_set);
-    info!(result, "[rho] (sumsets to:) {}", smallest_set.hfoldintervalrestrictedsignedsumset((ia, ib), n));
+    info!(result, "Set with smallest sumset: {}", smallest_set);
+    info!(result, "(sumsets to:) {}", smallest_set.hfoldintervalrestrictedsignedsumset((ia, ib), n));
     result.solve(curr_smallest)
 }
