@@ -11,8 +11,8 @@ fn export_string(s: String) -> RawCString {
 }
 
 pub struct WasmResult {
-    main_result: Option<u32>,
-    info_lines: Vec<String>,
+    pub main_result: Option<u32>,
+    pub info_lines: Vec<String>,
 }
 
 impl fmt::Display for WasmResult {
@@ -41,6 +41,10 @@ impl WasmResult {
 
     pub fn solve(&mut self, res: u32) -> RawCString {
         self.main_result = Some(res);
+        self.export()
+    }
+
+    pub fn export(&self) -> RawCString {
         let s = self.to_string();
         export_string(s)
     }

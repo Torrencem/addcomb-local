@@ -2,7 +2,6 @@ use std::cmp;
 use fastset::*;
 use wasm_result::*;
 
-// Temporary
 macro_rules! info {
     ($res_var:ident, $( $arg:tt )+) => {
         $res_var.push_line(format!($($arg)+));

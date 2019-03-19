@@ -99,26 +99,26 @@ mod tests {
 
     use super::chapter_a::*;
 
-    #[test]
-    fn test_dylans_thing() {
-        for m in &[2u32, 3, 4] {
-            print!("\n\n\nm = {}\n\n", m);
-            print!("  h =| ");
-            for h in 2..=30 {
-                print!("{:02} ", h);
-            }
-            print!("\n");
-            print!("-----|");
-            for _ in 2..=30 {
-                print!("---");
-            }
-            for n in *m..=30 {
-                print!("\nn={:02} | ", n);
-                for h in 2..=30 {
-                    print!("{:02} ", nu(n, *m, h));
-                }
-            }
-        }
-        print!("\n");
-    }
+    // #[test]
+    // fn test_dylans_thing() {
+    //     for m in &[2u32, 3, 4] {
+    //         print!("\n\n\nm = {}\n\n", m);
+    //         print!("  h =| ");
+    //         for h in 2..=30 {
+    //             print!("{:02} ", h);
+    //         }
+    //         print!("\n");
+    //         print!("-----|");
+    //         for _ in 2..=30 {
+    //             print!("---");
+    //         }
+    //         for n in *m..=30 {
+    //             print!("\nn={:02} | ", n);
+    //             for h in 2..=30 {
+    //                 print!("{:02} ", nu(n, *m, h));
+    //             }
+    //         }
+    //     }
+    //     print!("\n");
+    // }
 }
