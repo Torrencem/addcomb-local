@@ -16,7 +16,7 @@ pub fn mu(n: u32, k: u32, l: u32) -> RawCString {
     }
     for m in 1..n {
         let mut found = false;
-        for a in each_set_exact_no_zero(n, m) {
+        for a in each_set_exact(n, m) {
             let mut k_a = a.hfoldsumset(k, n);
             let l_a = a.hfoldsumset(l, n);
             k_a.intersect(&l_a);
@@ -31,7 +31,7 @@ pub fn mu(n: u32, k: u32, l: u32) -> RawCString {
             return result.solve(m - 1);
         }
     }
-    return result.solve(n);
+    return result.solve(n -1);
 }
 
 #[no_mangle]
@@ -42,7 +42,7 @@ pub fn mu_signed(n: u32, k: u32, l: u32) -> RawCString {
     }
     for m in 1..n {
         let mut found = false;
-        for a in each_set_exact_no_zero(n, m) {
+        for a in each_set_exact(n, m) {
             let mut k_a = a.hfoldsignedsumset(k, n);
             let l_a = a.hfoldsignedsumset(l, n);
             k_a.intersect(&l_a);
@@ -57,7 +57,7 @@ pub fn mu_signed(n: u32, k: u32, l: u32) -> RawCString {
             return result.solve(m - 1);
         }
     }
-    return result.solve(n);
+    return result.solve(n - 1);
 }
 
 #[no_mangle]
@@ -76,7 +76,7 @@ pub fn mu_restricted(n: u32, k: u32, l: u32) -> RawCString {
     }
     for m in lower_bound..n {
         let mut found = false;
-        for a in each_set_exact_no_zero(n, m) {
+        for a in each_set_exact(n, m) {
             let mut k_a = a.hfoldrestrictedsumset(k, n);
             let l_a = a.hfoldrestrictedsumset(l, n);
             k_a.intersect(&l_a);
@@ -91,7 +91,7 @@ pub fn mu_restricted(n: u32, k: u32, l: u32) -> RawCString {
             return result.solve(m - 1);
         }
     }
-    return result.solve(n);
+    return result.solve(n - 1);
 }
 
 #[no_mangle]
@@ -105,7 +105,7 @@ pub fn mu_signed_restricted(n: u32, k: u32, l: u32) -> RawCString {
     }
     for m in 1..n {
         let mut found = false;
-        for a in each_set_exact_no_zero(n, m) {
+        for a in each_set_exact(n, m) {
             let mut k_a = a.hfoldrestrictedsignedsumset(k, n);
             let l_a = a.hfoldrestrictedsignedsumset(l, n);
             k_a.intersect(&l_a);
@@ -120,7 +120,7 @@ pub fn mu_signed_restricted(n: u32, k: u32, l: u32) -> RawCString {
             return result.solve(m - 1);
         }
     }
-    return result.solve(n);
+    return result.solve(n - 1);
 }
 
 #[cfg(test)]
