@@ -21,8 +21,9 @@ pub fn mu(n: u32, k: u32, l: u32) -> RawCString {
             let l_a = a.hfoldsumset(l, n);
             k_a.intersect(&l_a);
             if k_a.isempty() {
+                result.flush_lines();
                 info!(result, "For m={}, found {}, which is sum-free", m, a);
-                info!(result, "(k_a = {}, l_a = {})", a.hfoldsumset(k, n), l_a);
+                info!(result, "(kA = {}, lA = {})", a.hfoldsumset(k, n), l_a);
                 found = true;
                 break;
             }
@@ -47,8 +48,9 @@ pub fn mu_signed(n: u32, k: u32, l: u32) -> RawCString {
             let l_a = a.hfoldsignedsumset(l, n);
             k_a.intersect(&l_a);
             if k_a.isempty() {
+                result.flush_lines();
                 info!(result, "For m={}, found {}, which is sum-free", m, a);
-                info!(result, "(k_a = {}, l_a = {})", a.hfoldsignedsumset(k, n), l_a);
+                info!(result, "(kA = {}, lA = {})", a.hfoldsignedsumset(k, n), l_a);
                 found = true;
                 break;
             }
@@ -81,8 +83,9 @@ pub fn mu_restricted(n: u32, k: u32, l: u32) -> RawCString {
             let l_a = a.hfoldrestrictedsumset(l, n);
             k_a.intersect(&l_a);
             if k_a.isempty() {
+                result.flush_lines();
                 info!(result, "For m={}, found {}, which is sum-free", m, a);
-                info!(result, "(k_a = {}, l_a = {})", a.hfoldrestrictedsumset(k, n), l_a);
+                info!(result, "(kA = {}, lA = {})", a.hfoldrestrictedsumset(k, n), l_a);
                 found = true;
                 break;
             }
@@ -110,8 +113,9 @@ pub fn mu_signed_restricted(n: u32, k: u32, l: u32) -> RawCString {
             let l_a = a.hfoldrestrictedsignedsumset(l, n);
             k_a.intersect(&l_a);
             if k_a.isempty() {
+                result.flush_lines();
                 info!(result, "For m={}, found {}, which is sum-free", m, a);
-                info!(result, "(k_a = {}, l_a = {})", a.hfoldrestrictedsignedsumset(k, n), l_a);
+                info!(result, "(kA = {}, lA = {})", a.hfoldrestrictedsignedsumset(k, n), l_a);
                 found = true;
                 break;
             }

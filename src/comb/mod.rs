@@ -8,7 +8,10 @@ pub mod chapter_f;
 pub mod chapter_g;
 pub mod hfolds;
 
+pub mod exact_copy_gen;
+
 use std::cmp;
+use itertools::max;
 
 pub fn choose(n: u32, k: u32) -> u32 {
     if k == 0 || n == 0 {
@@ -58,9 +61,9 @@ fn slow_prime(n: usize) -> bool {
 }
 
 lazy_static! {
-    static ref PRIMES: [bool; 64] = {
-        let mut p = [false; 64];
-        for i in 0..63 {
+    static ref PRIMES: [bool; 500] = {
+        let mut p = [false; 500];
+        for i in 0..499 {
             p[i] = slow_prime(i);
         }
         p
@@ -70,6 +73,52 @@ lazy_static! {
 #[inline]
 pub fn prime(n: u32) -> bool {
     PRIMES[n as usize]
+}
+
+// Somewhat slow, as it includes n/2 .. n when
+// it doesn't have to, but concise
+#[inline]
+pub fn divisors(n: u32) -> Vec<u32> {
+    (1..=n).filter(|x| n % x == 0).collect()
+}
+
+pub fn gcd(a: u32, b: u32) -> u32 {
+    if a == b {
+        a
+    } else if a % b == 0 {
+        b
+    } else if b % a == 0 {
+        a
+    } else if a == 1 {
+        1
+    } else if b == 1 {
+        1
+    } else {
+        if a > b {
+            gcd(a % b, b)
+        } else {
+            gcd(b % a, b)
+        }
+    }
+}
+
+pub fn v(g: u32, n: u32, h: u32) -> u32 {
+    max(divisors(n).iter().map(|d| {
+        if *d == 1 || gcd(*d, g) > (d - 1) {
+            0
+        } else {
+            (((d - 1 - gcd(*d, g)) / h) + 1) * (n / d)
+        }
+    })).unwrap()
+}
+
+pub fn is_invariant(v: &Vec<u32>) -> bool {
+    for i in 1..v.len() {
+        if v[i - 1] % v[i] != 0 {
+            return false;
+        }
+    }
+    true
 }
 
 #[cfg(test)]
@@ -98,6 +147,15 @@ mod tests {
     }
 
     use super::chapter_a::*;
+
+    #[test]
+    fn test_v_function() {
+        let g = 4;
+        let h = 4;
+        for n in 2..=20 {
+            println!("n: {}, val: {}", n, v(g, n, h));
+        }
+    }
 
     // #[test]
     // fn test_dylans_thing() {

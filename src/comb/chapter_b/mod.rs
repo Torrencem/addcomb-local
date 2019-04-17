@@ -12,6 +12,12 @@ macro_rules! info {
 
 #[no_mangle]
 pub fn phi(n: u32, h: u32) -> RawCString {
+    if n == 1 {
+        return WasmResult::new().solve(1);
+    }
+    if h == 1 {
+        return WasmResult::new().solve(n);
+    }
     let mut res = _phi_interval(n, 0, h);
     res.main_result = res.main_result.map(|val| val + 1);
     res.export()
@@ -49,6 +55,9 @@ fn _phi_interval(n: u32, ia: u32, ib: u32) -> WasmResult {
 
 #[no_mangle]
 pub fn phi_signed(n: u32, h: u32) -> RawCString {
+    if n == 1 {
+        return WasmResult::new().solve(1);
+    }
     let mut result = WasmResult::new();
     for m in 2u32.. {
         for a in each_set_exact(n, m) {
@@ -78,6 +87,12 @@ pub fn phi_signed_interval(n: u32, ia: u32, ib: u32) -> RawCString {
 // Not a very researched function... (page 145)
 #[no_mangle]
 pub fn phi_restricted(n: u32, h: u32) -> RawCString {
+    if n == 1 {
+        return WasmResult::new().solve(1);
+    }
+    if h == 1 {
+        return WasmResult::new().solve(n);
+    }
     let mut result = WasmResult::new();
     for m in 2u32.. {
         for a in each_set_exact(n, m) {

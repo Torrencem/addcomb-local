@@ -39,6 +39,10 @@ impl WasmResult {
         self.info_lines.push(s);
     }
 
+    pub fn flush_lines(&mut self) {
+        self.info_lines.clear();
+    }
+
     pub fn solve(&mut self, res: u32) -> RawCString {
         self.main_result = Some(res);
         self.export()

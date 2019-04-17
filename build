@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source ~/emsdk-portable/emsdk_set_env.sh
+
+cargo build --target "wasm32-unknown-emscripten" --release
+
+cp target/wasm32-unknown-emscripten/release/addcomb.js ~/Documents/School/Research/ACFrontend/ac_app/addcomb.js
+cp target/wasm32-unknown-emscripten/release/addcomb.wasm ~/Documents/School/Research/ACFrontend/ac_app/addcomb.wasm
